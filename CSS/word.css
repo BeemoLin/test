@@ -1,0 +1,11 @@
+@charset "utf-8";
+.word {
+	font-family: "微軟正黑體";
+	color: #FFF;
+}
+.q {
+	font-family: "微軟正黑體";
+}
+.all tr th table tr td table tr th .q {
+	color: #FFF;
+}

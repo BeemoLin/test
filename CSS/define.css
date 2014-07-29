@@ -1,0 +1,225 @@
+body {
+   background-image: url();
+   background-repeat: no-repeat;
+   margin-left: 0px;
+   margin-top: 0px;
+   background-color: #000;
+   font-family: "微軟正黑體";
+   color: #FFF;
+}.all {
+   background-image: url(img/third/backgrondreal.jpg);
+}.white {
+   color: #FFF;
+   font-family: "微軟正黑體";
+}.white1 {
+   color: #FFF;
+   font-family: "微軟正黑體";
+}
+
+li {
+   display:inline;
+   float:left;
+   margin-left:2px;
+   margin-bottom:0px;
+   list-style-type: none;
+}
+
+#a1 {
+   height: 95px;
+   width: 10px;
+   float: left;
+}#a10 {
+   height: 95px;
+   width: 40px;
+   float: right;
+}
+
+#a2 {
+   height: 95px;
+   width: 90px;
+   float: left;
+}#a3 {
+   height: 95px;
+   width: 90px;
+   float: left;
+}#a4 {
+   height: 95px;
+   width: 90px;
+   float: left;
+}#a5 {
+   height: 95px;
+   width: 90px;
+   float: left;
+}#a6 {
+   height: 95px;
+   width: 90px;
+   float: left;
+}#a7 {
+   height: 95px;
+   width: 90px;
+   float: left;
+}#a8 {
+   height: 95px;
+   width: 90px;
+   float: left;
+}#a9 {
+   height: 95px;
+   width: 90px;
+   float: left;
+}#allpic {
+   background-image: url(../img/third/backgrondreal.jpg);
+   background-repeat: no-repeat;
+   height: 580px;
+   width: 770px;
+}#apDiv1 {
+   position: relative;
+   width: 32px;
+   height: 73px;
+   z-index: 1;
+   left: 0px;
+   top: 10px;
+}
+
+#apDiv2 {
+   position: absolute;
+   width: 200px;
+   height: 115px;
+   z-index: 1;
+   left: -250px;
+   top: 77px;
+   visibility: hidden;
+}
+
+#pic1 {
+   height: 75px;
+   width: 770px;
+}
+
+#pic2 {
+   height: 100px;
+   width: 770px;
+}
+
+#pic3 {
+   height: 360px;
+   width: 580px;
+   background-repeat: no-repeat;
+   background-position: left;
+}
+
+#pic3_left {
+   float: left;
+   height: 390px;
+   width: 10px;
+   background-repeat: no-repeat;
+   background-position: left;
+}
+
+#pic3_right {
+   float:left ;/*right*/
+   height: 360px;
+   width: 560px;
+}
+
+#pic4 {
+   background-image: url(../img/third/dn_bar.gif);
+   height: 20px;
+   width: 580px;
+}
+#picadd4 {
+   background-image: url(../img/third/dn_bar.gif);
+   height: 10px;
+   width: 580px;
+}
+#title {
+   float: left;
+   height: 65px;
+   width: 175px;
+   background-image: url(../img/third/LOGO.gif);
+   background-repeat: no-repeat;
+   background-position: right center;
+}
+
+#title2 {
+   float: left;
+   height: 65px;
+   width: 180px;
+   background-image: url(../img/third/cc77.gif);
+   background-repeat: no-repeat;
+   background-position: right center;
+}
+
+#title3 {
+   float: right;
+   height: 75px;
+   width: 300px;
+}
+
+#title3_left {
+   float: left;
+   height: 75px;
+   width: 190px;
+}
+
+#title3_left_down {
+   height: 37px;
+   width: 190px;
+}
+
+#title3_left_up {
+   height: 37px;
+   width: 190px;
+}
+
+#title3_right {
+   float: right;
+   height: 75px;
+   width: 110px;
+}
+
+#title3_right_down {
+   height: 37px;
+   width: 110px;
+}
+
+#title3_right_up {
+   height: 37px;
+   width: 110px;
+}
+
+/*社區剪影 縮圖間距*/
+.q1 {
+   height: 130px;
+   width: 110px;
+   font-size: 12px;
+   //float: left;
+   text-align: center;
+}/*彈跳圖片的CSS*/
+.blue {
+   color: #09C;
+}
+
+.q {
+   height: 130px;
+   width: 105px;
+   font-size: 12px;
+   float: left;
+   text-align: center;
+}.org {
+   font-size: 18px;
+   color: #F60;
+}img.pop {
+   position: absolute;
+   border: 10px solid #214263;
+   z-index: 1;
+}
+
+.more {
+   background: #214263;
+   color: white;
+   position: absolute;
+   border: 10px solid #214263;
+   z-index: 2;
+}.popshow {
+   width: 560px;
+}

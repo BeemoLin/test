@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=big5" />
+<title>意見信箱</title>
+<style type="text/css">
+<!--
+.style1 {font-size: 14px}
+.style10 {font-size: 18px; color: #333333; }
+.style2 {font-size: 16px}
+.style6 {color: #FFFFFF; font-size: 14px;}
+.style8 {font-size: 18px}
+body {
+	background-color: #FEFFD8;
+}
+.style11 {font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 18px; color: #FF0000; }
+-->
+</style>
+</head>
+
+<body>
+<div align="center">
+  <form action="sendmail.php" method="post" name="form1" id="form1">
+    <table width="425" border="1" cellpadding="0" cellspacing="0" bordercolor="#CCCCCC">
+      <tr bordercolor="#CCCCCC" bgcolor="#ECFFF0">
+        <td height="28" colspan="2" bgcolor="#ECFFF0"><div align="center"><span class="style10"> 意見信箱 </span></div>
+          <div align="left" class="style8"></div></td>
+      </tr>
+      <tr bordercolor="#CCCCCC">
+        <td width="77" height="28" bgcolor="#0099FF"><div align="left"><span class="style6">user</span></div></td>
+        <td width="332" bgcolor="#FFFFFF"><div align="left"><span class="style1"><span class="style2">
+            <input name="user" type="text" id="user" size="10" />
+        </span></span></div></td>
+      </tr>
+      <tr>
+        <td height="28" bgcolor="#0099FF"><div align="left"><span class="style6">email</span></div></td>
+        <td height="28" bgcolor="#FFFFFF"><div align="left"><span class="style2">
+          <input name="email" type="text" id="email" size="30" />
+        </span></div></td>
+      </tr>
+      <tr>
+        <td height="28" bgcolor="#0099FF"><div align="left"><span class="style6">mailto</span></div></td>
+        <td height="28" bgcolor="#FFFFFF"><div align="left"><span class="style2">
+          <input name="mailto" type="text" id="mailto" size="30" />
+        </span></div></td>
+      </tr>
+      <tr>
+        <td height="28" bgcolor="#0099FF"><div align="left">subject</div></td>
+        <td height="28" bgcolor="#FFFFFF"><div align="left"><span class="style1"><span class="style2">
+            <input name="subject" type="text" id="subject" size="30" />
+        </span></span></div></td>
+      </tr>
+      <tr>
+        <td height="28" bgcolor="#0099FF"><div align="left"><span class="style6">message</span></div></td>
+        <td height="28" bgcolor="#FFFFFF"><div align="left"><span class="style1"><span class="style2">
+            <textarea name="body" cols="45" rows="10" id="body"></textarea>
+        </span></span></div></td>
+      </tr>
+      <tr>
+        <td height="28" colspan="2" bgcolor="#ECFFF0"><div align="center"><span class="style2">
+            <input type="submit" name="Submit" value="確定送出" />
+            </span><span class="style2">
+            <input type="reset" name="Submit2" value="重新填寫" />
+          </span></div>
+            <div align="left"><span class="style1"></span></div></td>
+      </tr>
+    </table>
+  </form>
+</div>
+</body>
+</html>
