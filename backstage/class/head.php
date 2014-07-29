@@ -201,7 +201,7 @@
 					<div id="top4" ><img name="set" id="set" alt="基本設定" src="./images/back_btn/set_out.gif" osrc="./images/back_btn/set_out.gif" onmouseover="onMouseOverImage('set')" onmouseout="onMouseOutImage('set')" onclick="post_to_url('backindexbasic.php', {'action_mode':'view_all_data'})"/></div>
 					<div id="top5" ><img name="food" id="food" alt="生活資訊" src="./images/back_btn/food_out.gif" osrc="./images/back_btn/food_out.gif" onmouseover="onMouseOverImage('food')" onmouseout="onMouseOutImage('food')" onclick="post_to_url('backindexlife.php', {'action_mode':'view_all_data'})"/></div>
 					<div id="top6" ><img name="liveing" id="liveing" alt="住戶管理" src="./images/back_btn/liveing_out.gif" osrc="./images/back_btn/liveing_out.gif" onmouseover="onMouseOverImage('liveing')" onmouseout="onMouseOutImage('liveing')" onclick="post_to_url('backindexhouseholder.php', {'action_mode':'view_all_data'})"/></div>
-					<div id="top7"><a href="logout.php"><img height="30" alt="登出" src="./images/logout.gif" width="40" border="0" /></a><a href="../logout.php"><img height="30" alt="前台首頁" src="./images/homepage.gif" width="40" border="0" /></a></div>
+					<div id="top7"><a href="logout.php"><img height="30" alt="登出" src="./images/logout.gif" width="40" border="0" /></a><a href="./backindex.php"><img height="30" alt="前台首頁" src="./images/homepage.gif" width="40" border="0" /></a></div>
 				</div>
         <div id="right2">
 				</div>
