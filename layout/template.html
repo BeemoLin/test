@@ -3626,7 +3626,7 @@ print $pages_navigation_RecHappy[0];
                           </td>
                         </tr>-->
                       </table>
-       
+      <?php } elseif($_SESSION['from_web']=='maint.php'){ include('view/maint/index.php'); ?>
       <?php } elseif($_SESSION['from_web'] == 'rule.php'){?>  
                           
                    <table border="0" align="center" cellpadding="0" cellspacing="0">
@@ -4081,7 +4081,7 @@ print $pages_navigation_RecHappy[0];
   
      
       <?php  } ?>
-   
+      
         
       <!------------------填入所需的版面------------------------------>
     </td>

@@ -26,7 +26,7 @@
           <td><?php echo ($value['maint_cycle']=='0') ? $week_list[$value[maint_date]] : $value['maint_date']."號"; ?></td>
           <td><?php echo $value['maintainer']; ?></td>
           <td><a href="#" class="btn btn-default" onclick="post_to_url('backindex_maint.php', {'action_mode':'edit', 'maint_id':'<?php echo $value['maint_id']; ?>'});">設定</a></td>
-          <td><a href="#" class="btn btn-default" onclick="post_to_url('backindex_maintlog.php', {'action_mode':'index', 'maint_id':'<?php echo $value['maint_id']; ?>'});">驗收</a></td>
+          <td><a href="#" class="btn btn-default" onclick="post_to_url('backindex_maintlog.php', {'action_mode':'index', 'equipment_id':'<?php echo $value['maint_id']; ?>'});">驗收</a></td>
 				  <?php if($_SESSION['MM_UserGroup']=='權限管理者'){ ?>
           <td><a href="#" class="btn btn-danger" onclick="confirm_delete(<?php echo $value['maint_id']; ?>);">刪除設備</a></td>
           <?php } ?>
