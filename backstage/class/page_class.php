@@ -334,6 +334,44 @@ class sam_pages_class{
     return $page;
   }
   
+  //-------------------20140806 FOR設備保養 backindex_maintlog.php action_mode=checkequyes-----------------
+   function getFirstpage5($mainid,$keyword, $page_name = null){                                  //取得第一頁 (查詢發放特製)
+    $page="";
+    //$page.='<a href="?page=1" >第一頁</a>' ;
+    $page.='<li><a href="#" onclick="post_to_url(\''.$this->page_name.'\', {\'action_mode\':\''.$this->action_mode.'\',\'equipment_id\':\''.$mainid.'\',\'keyword\':\''.$keyword.'\',\'page\':\'1\'})">第一頁</a></li>'."&nbsp;" ;
+    return $page;
+  }
+  
+  function getEndpage5($mainid,$keyword, $page_name = null){                                    //取得最終頁 (查詢發放特製)
+    $page="";
+    $page.='<li><a href="#" onclick="post_to_url(\''.$this->page_name.'\', {\'action_mode\':\''.$this->action_mode.'\',\'equipment_id\':\''.$mainid.'\',\'keyword\':\''.$keyword.'\',\'page\':\''.$this->total_pages.'\'})">第終頁</a></li>' ;
+    return $page;
+  }
+  
+  function getListpage5($mainid,$keyword, $view_page,$page_name = null){               					//取得頁數列表 (查詢發放特製)
+    $page='';
+    $this->view_page = $view_page;
+    if($this->now_page-$this->view_page>1){
+      $page.="...&nbsp;";
+    }
+    for($i=$this->now_page-$this->view_page;$i<$this->now_page;$i++){
+      if($i>0){
+        $page.='<li><a href="#" onclick="post_to_url(\''.$this->page_name.'\', {\'action_mode\':\''.$this->action_mode.'\',\'equipment_id\':\''.$mainid.'\',\'keyword\':\''.$keyword.'\',\'page\':\''.$i.'\'})">'.$i.'</a></li>'."&nbsp;" ;
+      }
+    }
+    $page.='<li><a href="#" onclick="post_to_url(\''.$this->page_name.'\', {\'action_mode\':\''.$this->action_mode.'\',\'equipment_id\':\''.$mainid.'\',\'keyword\':\''.$keyword.'\',\'page\':\''.$this->now_page.'\'})" style="font-weight:bold;color:red;">'.$this->now_page.'</a></li>'."&nbsp;" ;
+    for($i=$this->now_page+1;$i<=$this->now_page+$this->view_page;$i++){
+      if($i<=$this->total_pages){
+        $page.='<li><a href="#" onclick="post_to_url(\''.$this->page_name.'\', {\'action_mode\':\''.$this->action_mode.'\',\'equipment_id\':\''.$mainid.'\',\'keyword\':\''.$keyword.'\',\'page\':\''.$i.'\'})">'.$i.'</a></li>'."&nbsp;" ;
+      }
+    }
+    if($this->now_page+$this->view_page<$this->total_pages){
+      $page.="...&nbsp;";
+    }
+    return $page;
+  }
+  
+  
   
 }
 
