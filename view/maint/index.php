@@ -17,7 +17,9 @@
       foreach ($maintData as $key => $value){
     ?>
       <tr>
-        <td><?php echo $value['maint_name']; ?></td>
+       <!-- <td> <a href="reservation_list.php?equipment_id=<?//=$value['maint_id']?>"> <?php //echo $value['maint_name']; ?></a></td>-->
+       <!--class="btn btn-success"-->
+        <td> <a href="#"  onclick="post_to_url('reservation_list.php', {'equipment_id':'<?=$value['maint_id']?>'});"><?php echo $value['maint_name']; ?></a></td>
         <td><?php echo $value['maint_co']; ?></td>
         <td><?php echo $cycle_list[$value['maint_cycle']]; ?></td>
         <td><?php echo ($value['maint_cycle']=='0') ? $week_list[$value[maint_date]] : $value['maint_date']."號"; ?></td>

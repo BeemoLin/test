@@ -26,8 +26,8 @@ switch($action_mode)
     $pages = new sam_pages_class;
     $pages->action_mode('index');
     
-    // 此段有在select 中select 叫做'巢狀子查詢' MSSQL 與 MySQL 皆適用
-    $select_expression = '`maint_id`, `maint_name`, `maint_cycle`, `maint_date`, `maint_period`, `maint_notice`, `maint_visible`, `maint_co`, `maint_co_tel`, `update_at`, (select `name` FROM `maintainer` WHERE  `maintainer`.`maint_id` = `maintain`.`maint_id` AND `maint_type` = 1 LIMIT 0 , 1) AS `maintainer`';
+    // 此段有在select 中select ,'巢狀子查詢' MSSQL 與 MySQL 皆適用
+    $select_expression = '`maint_id`, `maint_name`, `maint_cycle`, `maint_date`, `maint_period`, `maint_notice`, `maint_visible`, `maint_co`, `maint_co_tel`, `update_at`, (select `name` FROM `maintainer` WHERE  `maintainer`.`maint_id` = `maintain`.`maint_id` AND `maint_type` = 1 LIMIT 0 , 1) AS `maintainer`, (select `check_state` FROM `maintainlog` WHERE  `maintainlog`.`maint_id` = `maintain`.`maint_id` ORDER BY `uid` DESC LIMIT 0 , 1) AS `maint_state`';
     
     $DBname = '`maintain`';
     $where_expression = ' ORDER BY `maint_id` ASC ';

@@ -12,6 +12,7 @@
           <th>社區參與人員</th>
           <th>設定</th>
           <th>驗收狀態</th>
+          <th>查看</th>
         </tr>
       </thead>
       <tbody>
@@ -26,7 +27,14 @@
           <td><?php echo ($value['maint_cycle']=='0') ? $week_list[$value[maint_date]] : $value['maint_date']."號"; ?></td>
           <td><?php echo $value['maintainer']; ?></td>
           <td><a href="#" class="btn btn-default" onclick="post_to_url('backindex_maint.php', {'action_mode':'edit', 'maint_id':'<?php echo $value['maint_id']; ?>'});">設定</a></td>
-          <td><a href="#" class="btn btn-default" onclick="post_to_url('backindex_maintlog.php', {'action_mode':'index', 'equipment_id':'<?php echo $value['maint_id']; ?>'});">驗收</a></td>
+          <td>
+          <?php if($value['maint_state']=="1"){ ?>
+            <a href="#" class="btn btn-success" onclick="post_to_url('backindex_maintlog.php', {'action_mode':'index', 'equipment_id':'<?php echo $value['maint_id']; ?>'});">已驗收</a>
+          <?php }else{ ?>
+            <a href="#" class="btn btn-default" onclick="post_to_url('backindex_maintlog.php', {'action_mode':'index', 'equipment_id':'<?php echo $value['maint_id']; ?>'});">未驗收</a>
+          <?php } ?>
+          </td>
+          <td><a href="#" class="btn btn-default" onclick="post_to_url('backindex_maintlog.php', {'action_mode':'checkequyes', 'equipment_id':'<?php echo $value['maint_id']; ?>'});">查看</a> </td>
 				  <?php if($_SESSION['MM_UserGroup']=='權限管理者'){ ?>
           <td><a href="#" class="btn btn-danger" onclick="confirm_delete(<?php echo $value['maint_id']; ?>);">刪除設備</a></td>
           <?php } ?>
