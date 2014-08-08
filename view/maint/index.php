@@ -17,14 +17,20 @@
       foreach ($maintData as $key => $value){
     ?>
       <tr>
-       <!-- <td> <a href="reservation_list.php?equipment_id=<?//=$value['maint_id']?>"> <?php //echo $value['maint_name']; ?></a></td>-->
-       <!--class="btn btn-success"-->
-        <td> <a href="#"  onclick="post_to_url('reservation_list.php', {'equipment_id':'<?=$value['maint_id']?>'});"><?php echo $value['maint_name']; ?></a></td>
+        <td> <a href="#"  onclick="post_to_url('checkmaintlist.php', {'equipment_id':'<?=$value['maint_id']?>'});"><?php echo $value['maint_name']; ?></a></td>
         <td><?php echo $value['maint_co']; ?></td>
         <td><?php echo $cycle_list[$value['maint_cycle']]; ?></td>
         <td><?php echo ($value['maint_cycle']=='0') ? $week_list[$value[maint_date]] : $value['maint_date']."號"; ?></td>
         <td><?php echo $value['maintainer']; ?></td>
-        <td><button href="" onclick="post_to_url('backstage/backindex_maintlog.php', {'action_mode':'index', 'equipment_id':'<?php echo $value['maint_id']; ?>'});">驗收</button></td>
+         
+         <?php if($value['maint_state']=="1"){ ?>
+           <td bgcolor="#00FF00"> <a href="#" onclick="post_to_url('showcheckpic.php', {'action_mode':'index', 'equipment_id':'<?php echo $value['maint_id']; ?>'});">已驗收</a>
+          <?php }else{ ?>
+           <td bgcolor="#FF0000">未驗收
+          <?php } ?>
+        </td>
+        <!--<td><button href="" onclick="post_to_url('backstage/backindex_maintlog.php', {'action_mode':'index', 'equipment_id':'<?php //echo $value['maint_id']; ?>'});">驗收</button></td>
+      -->
       </tr>
     <?php }} ?>
     </tbody>

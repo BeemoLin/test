@@ -1,50 +1,41 @@
 <?php
 require_once('define.php');
-$_SESSION['from_web'] = basename($_SERVER[SCRIPT_FILENAME]);
 require_once(CONNSQL);
 require_once(PAGECLASS);
+$_SESSION['from_web'] = basename($_SERVER[SCRIPT_FILENAME]);
 require_once('includes/authorization.php');
 
-$logoutAction = 'logout.php';
-$currentPage = $_SERVER["PHP_SELF"];
-$m_username = $_SESSION['MM_Username'];
-$uid = $_SESSION['MM_UserID'];
-
-if(isset($_POST['page'])){
-  $page = $_POST['page'];
-}else{
-  $page = 1;
+if(isset($_POST)){
+	foreach($_POST as $key => $value){
+		$$key = $value;
+	}
 }
-
-
-$pages = new sam_pages_class;
-$pages->action_mode('index');
-
-// 此段有在select 中select 叫做'巢狀子查詢' MSSQL 與 MySQL 皆適用
-$select_expression = '`maint_id`, `maint_name`, `maint_cycle`, `maint_date`, `maint_period`, `maint_notice`, `maint_visible`, `maint_co`, `maint_co_tel`, `update_at`, (select `name` FROM `maintainer` WHERE  `maintainer`.`maint_id` = `maintain`.`maint_id` AND `maint_type` = 1 LIMIT 0 , 1) AS `maintainer`, (select `check_state` FROM `maintainlog` WHERE  `maintainlog`.`maint_id` = `maintain`.`maint_id` ORDER BY `uid` DESC LIMIT 0 , 1) AS `maint_state`';
-
-$DBname = '`maintain`';
-$where_expression = ' ORDER BY `maint_id` ASC ';
-
-$pages->setDb($DBname, $where_expression, $select_expression);
-$pages->setPerpage(10,$page);
-$pages->set_base_page('backindex_maint.php');
-$Firstpage = $pages->getFirstpage2();
-$Listpage = $pages->getListpage2(2);
-$Endpage = $pages->getEndpage2();
-$maintData = $pages->getData();
-
-//echo($pages->sql);
-
-$cycle_list = array("每週","每月","每季","每半年","每年");
-$week_list = array("週一","週二","週三","週四","週五","週六","週日");
-
+function ShowCheckPic($equipment_id,&$equname,&$dataphoto){
+  if(isset($equipment_id)){
+    $data_function = new data_function; //建立資料庫物件
+    
+    $data_function->setDb("maintain");
+    $where_expression = "AND `maint_id` = ".$equipment_id;
+    $dataequ = $data_function->select($where_expression);
+    $equname="設備名稱:".$dataequ[1]["maint_name"];
+  
+    $data_function->setDb("maintainlog");
+    $where_expression = " AND `maint_id` = ".$equipment_id." ORDER BY `uid` DESC  LIMIT 1";
+    $datalog = $data_function->select($where_expression);
+    $uid=$datalog[1]["uid"];
+    
+    $data_function->setDb("maintainlog_photo");
+    $where_expression = " AND `maintainlog_uid` = ".$uid." ORDER BY `uid`";
+    $dataphoto = $data_function->select($where_expression);
+  }
+}
+ ShowCheckPic($equipment_id,$equname,$dataphoto);
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>設備保養</title>
+<title>社區公告</title>
 <script type="text/javascript">
 <!--
 function MM_swapImgRestore() { //v3.0
@@ -75,14 +66,7 @@ function MM_showHideLayers() { //v9.0
     if (obj.style) { obj=obj.style; v=(v=='show')?'visible':(v=='hide')?'hidden':v; }
     obj.visibility=v; }
 }
-function mark(face,field_color,text_color){
-  if (document.documentElement){//if browser is IE5+ or NS6+
-    face.style.backgroundColor=field_color;
-    face.style.color=text_color;
-  }
-}
-
-        function post_to_url(path, params, method) {
+   function post_to_url(path, params, method) {
             method = method || "post"; // Set method to post by default, if not specified.
 
             // The rest of this code assumes you are not using a library.
@@ -104,30 +88,18 @@ function mark(face,field_color,text_color){
             form.submit();
         }
 
-
 //-->
+</script>
+<script type="text/javascript" src="js/jquery-1.2.1.pack.js">
+</script>
+<script type="text/javascript" src="js/pro.js">
 </script>
 <link href="CSS/link.css" rel="stylesheet" type="text/css" />
 <link href="CSS/define.css" rel="stylesheet" type="text/css" />
-<style type="text/css">
-<!--
-.tbcolor {
-   border: 1px dotted #F60;
-}
-
-.tbcolor1 {
-   backstage-color: #FFC;
-}
-
-.tbcolor2 {
-   color: #FFF;
-   backstage-color: #F9C;
-}
--->
-</style>
 </head>
 
 <body onload="MM_preloadImages('img/third/btn_ bulletin_dn.gif','img/third/btn_opinion_dn.gif','img/third/btn_equipment_dn.gif','img/third/btn_share_dn.gif','img/third/btn_food_dn.gif','img/third/btn_photo_dn.gif','img/third/btn_mony_dn.gif','img/third/btn_fix_dn.gif','img/third/arrow_up(3).gif','img/third/btn_list_dn.gif','img/third/btn_rule_dn.gif','img/third/btn_info_dn.gif')">
  <?php include('layout/template.html'); ?>
+ 
 </body>
 </html>

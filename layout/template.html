@@ -3033,6 +3033,7 @@ print $pages_navigation_RecHappy[0];
                 </td>
               </tr>-->
             </table>
+      <?php } elseif($_SESSION['from_web'] == 'showcheckpic.php'){ include('view/maint/viewcheckpic.php');?> 
       <?php } elseif($_SESSION['from_web'] == 'announcementshow.php'){?>  
           
             <table border="0" align="center" cellpadding="0" cellspacing="0">
@@ -3154,7 +3155,7 @@ print $pages_navigation_RecHappy[0];
                     </td>
                   </tr>-->
           </table>
-        
+      <?php } elseif($_SESSION['from_web'] == 'checkmaintlist.php'){ include('view/maint/checkequlist.php');?> 
       <?php } elseif($_SESSION['from_web'] == 'reservation_list.php'){?>  
             <table border="0" align="center" cellpadding="0" cellspacing="0" >
                         <tr>
