@@ -66,6 +66,7 @@ if (isset($_FILES)){
   $files=$_FILES;
 }
 
+//var_dump($action_mode);
 if($action_mode=='view_all_data'){
   $pages = new sam_pages_class;
   $pages->setDb($album_name,"ORDER BY $input_date DESC",'*');

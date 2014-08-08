@@ -49,7 +49,7 @@ if (isset($_FILES)){
 }
 */
 //$action_mode
-
+//var_dump($action_mode);
 /// 單純抓資料,不需顯示頁面
 if($action_mode=='getuser')// 取得用戶資料
 {
@@ -479,9 +479,10 @@ elseif($action_mode=='fix')//信件發放:按鈕-->確定送出
 //$test=$_POST['cou']; $_post[]取html 屬性name 的value值 不是取屬性ID
  
  
-// var_dump($count_post);
-// var_dump($ccount_post);
-
+// var_dump("row".$count_post);
+// var_dump("===");
+// var_dump("col".$ccount_post);
+ 
 
   $pages = new data_function;
   $pages->setDb('mail_management');
