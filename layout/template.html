@@ -121,21 +121,20 @@ function changeTitle() { //v3.0
                 <?php
                 }
           ?>
-		    
       <?php }else { ?>
-		     <?php 
-                if($_SESSION['from_web'] == 'life.php' || $_SESSION['from_web'] == 'life_food.php' || $_SESSION['from_web'] == 'life_foodshow.php'     || $_SESSION['from_web'] == 'life_cloth.php' || $_SESSION['from_web'] == 'life_clothshow.php'    || $_SESSION['from_web'] == 'life_living.php'|| $_SESSION['from_web'] == 'life_livingshow.php'    || $_SESSION['from_web'] == 'life_walk.php'|| $_SESSION['from_web'] == 'life_walkshow.php'   || $_SESSION['from_web'] == 'life_teach.php'|| $_SESSION['from_web'] == 'life_teachshow.php'       || $_SESSION['from_web'] == 'life_happy.php'|| $_SESSION['from_web'] == 'life_happyshow.php'){
+		    
+		      <?php 
+                if($_SESSION['from_web'] == 'operation.php' || $_SESSION['from_web'] == 'operation_show.php' ){
                 ?>
-                  <a href="life.php" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image131','','layout/images/index01_08.jpg',1);MM_showHideLayers('apDiv1','','show','apDiv2','','hide')"> <img src="layout/images/index01_08.jpg" alt="" name="Image131"  width="106" height="112" border="0" id="Image131" /></a></td>
+                  <a href="operation.php" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image1331','','layout/images/btn_operation_dn.jpg',1);MM_showHideLayers('apDiv1','','show','apDiv2','','hide')"> <img src="layout/images/btn_operation_dn.jpg" alt="" name="Image1331"  width="106" height="112" border="0" id="Image1331" /></a></td>
                 <?php
                 }
                 else{
                 ?>
-                  <a href="life.php" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image131','','layout/images/index01_08.jpg',1);MM_showHideLayers('apDiv1','','show','apDiv2','','hide')"> <img src="layout/images/index02_08.jpg" alt="" name="Image131"  width="106" height="112" border="0" id="Image131" /></a></td>
+                  <a href="operation.php" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image1331','','layout/images/btn_operation_dn.jpg',1);MM_showHideLayers('apDiv1','','show','apDiv2','','hide')"> <img src="layout/images/btn_operation_up.jpg" alt="" name="Image1331"  width="106" height="112" border="0" id="Image1331" /></a></td>
                 <?php
                 }
           ?>
-		    
 		   <?php }?>
 			<!--<img src="layout/images/index01_08.jpg" width="106" height="112" alt="">-->    
       </td><!--生活資訊-->
@@ -3033,7 +3032,6 @@ print $pages_navigation_RecHappy[0];
                 </td>
               </tr>-->
             </table>
-      <?php } elseif($_SESSION['from_web'] == 'showcheckpic.php'){ include('view/maint/viewcheckpic.php');?> 
       <?php } elseif($_SESSION['from_web'] == 'announcementshow.php'){?>  
           
             <table border="0" align="center" cellpadding="0" cellspacing="0">
@@ -3155,7 +3153,7 @@ print $pages_navigation_RecHappy[0];
                     </td>
                   </tr>-->
           </table>
-      <?php } elseif($_SESSION['from_web'] == 'checkmaintlist.php'){ include('view/maint/checkequlist.php');?> 
+        
       <?php } elseif($_SESSION['from_web'] == 'reservation_list.php'){?>  
             <table border="0" align="center" cellpadding="0" cellspacing="0" >
                         <tr>
@@ -4095,18 +4093,18 @@ print $pages_navigation_RecHappy[0];
 	<tr>
 		<td>
 			<!--<img src="layout/images/index01_10.jpg" width="106" height="100" alt="">-->
-       <?php 
-                if($_SESSION['from_web'] == 'opinion2.php' || $_SESSION['from_web'] == 'opinionsee2.php' || $_SESSION['from_web'] == 'opinionadd2.php' ){
+        <?php 
+                if($_SESSION['from_web'] == 'online.php' || $_SESSION['from_web'] == 'onlinenew.php'){
                 ?>
-              <a href="opinion2.php" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image101','','layout/images/index01_10.jpg',1);MM_showHideLayers('apDiv2','','hide')"> <img src="layout/images/index01_10.jpg" alt="" name="Image101" width="106" height="100" border="0" id="Image101" /></a>
+                <a href="online.php" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image161','','layout/images/index01_15.jpg',1)"> <img src="layout/images/index01_15.jpg" alt="" name="Image161" width="106" height="100" border="0" id="Image161" /></a>
                 <?php
                 }
                 else{
                 ?>
-                <a href="opinion2.php" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image101','','layout/images/index01_10.jpg',1);MM_showHideLayers('apDiv2','','hide')"> <img src="layout/images/index02_10.jpg" alt="" name="Image101" width="106" height="100" border="0" id="Image101" /></a>
+                <a href="online.php" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image161','','layout/images/index01_15.jpg',1)"> <img src="layout/images/index02_15.jpg" alt="" name="Image161" width="106" height="100" border="0" id="Image161" /></a>
                 <?php
                 }
-                ?>
+          ?>
       </td><!--意見反應-->
 		<td>
 			<!--<img src="layout/images/index01_11.jpg" width="106" height="100" alt=""></td>--><!--社區剪影-->
@@ -4168,18 +4166,18 @@ print $pages_navigation_RecHappy[0];
 		<td>
 			<!--<img src="layout/images/index01_13.jpg" width="106" height="100" alt="">-->
        <?php if($_GET['mode']=="change") { ?>
-		      <?php 
-                if($_SESSION['from_web'] == 'operation.php' || $_SESSION['from_web'] == 'operation_show.php' ){
+       <?php 
+                if($_SESSION['from_web'] == 'opinion2.php' || $_SESSION['from_web'] == 'opinionsee2.php' || $_SESSION['from_web'] == 'opinionadd2.php' ){
                 ?>
-                  <a href="operation.php" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image1331','','layout/images/btn_operation_dn.jpg',1);MM_showHideLayers('apDiv1','','show','apDiv2','','hide')"> <img src="layout/images/btn_operation_dn.jpg" alt="" name="Image1331"  width="106" height="100" border="0" id="Image1331" /></a></td>
+              <a href="opinion2.php" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image101','','layout/images/index01_10.jpg',1);MM_showHideLayers('apDiv2','','hide')"> <img src="layout/images/index01_10.jpg" alt="" name="Image101" width="106" height="100" border="0" id="Image101" /></a>
                 <?php
                 }
                 else{
                 ?>
-                  <a href="operation.php" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image1331','','layout/images/btn_operation_dn.jpg',1);MM_showHideLayers('apDiv1','','show','apDiv2','','hide')"> <img src="layout/images/btn_operation_up.jpg" alt="" name="Image1331"  width="106" height="100" border="0" id="Image1331" /></a></td>
+                <a href="opinion2.php" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image101','','layout/images/index01_10.jpg',1);MM_showHideLayers('apDiv2','','hide')"> <img src="layout/images/index02_10.jpg" alt="" name="Image101" width="106" height="100" border="0" id="Image101" /></a>
                 <?php
                 }
-          ?>
+                ?>
 		    
       <?php }else { ?>
 		     <?php 
@@ -4222,21 +4220,22 @@ print $pages_navigation_RecHappy[0];
 		<td>
 			<!--<img src="layout/images/index01_15.jpg" width="106" height="110" alt="">-->
 			  <?php if($_GET['mode']=="change") { ?>
-		       
-		     <a href="#"> <img src="layout/images/Empty.jpg" width="106" height="110" border="0"  alt=""></a>
-      <?php }else { ?>
-		      <?php 
-                if($_SESSION['from_web'] == 'online.php' || $_SESSION['from_web'] == 'onlinenew.php'){
+		      
+		     <?php 
+                if($_SESSION['from_web'] == 'life.php' || $_SESSION['from_web'] == 'life_food.php' || $_SESSION['from_web'] == 'life_foodshow.php'     || $_SESSION['from_web'] == 'life_cloth.php' || $_SESSION['from_web'] == 'life_clothshow.php'    || $_SESSION['from_web'] == 'life_living.php'|| $_SESSION['from_web'] == 'life_livingshow.php'    || $_SESSION['from_web'] == 'life_walk.php'|| $_SESSION['from_web'] == 'life_walkshow.php'   || $_SESSION['from_web'] == 'life_teach.php'|| $_SESSION['from_web'] == 'life_teachshow.php'       || $_SESSION['from_web'] == 'life_happy.php'|| $_SESSION['from_web'] == 'life_happyshow.php'){
                 ?>
-                <a href="online.php" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image161','','layout/images/index01_15.jpg',1)"> <img src="layout/images/index01_15.jpg" alt="" name="Image161" width="106" height="110" border="0" id="Image161" /></a>
+                  <a href="life.php" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image131','','layout/images/index01_08.jpg',1);MM_showHideLayers('apDiv1','','show','apDiv2','','hide')"> <img src="layout/images/index01_08.jpg" alt="" name="Image131"  width="106" height="112" border="0" id="Image131" /></a></td>
                 <?php
                 }
                 else{
                 ?>
-                <a href="online.php" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image161','','layout/images/index01_15.jpg',1)"> <img src="layout/images/index02_15.jpg" alt="" name="Image161" width="106" height="110" border="0" id="Image161" /></a>
+                  <a href="life.php" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image131','','layout/images/index01_08.jpg',1);MM_showHideLayers('apDiv1','','show','apDiv2','','hide')"> <img src="layout/images/index02_08.jpg" alt="" name="Image131"  width="106" height="112" border="0" id="Image131" /></a></td>
                 <?php
                 }
           ?>
+		       
+      <?php }else { ?>
+            <a href="maint.php" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image162','','layout/images/btn_maint_dn.jpg',1)"> <img src="layout/images/btn_maint_up.jpg" alt="" name="Image162" width="106" height="110" border="0" id="Image162" /></a>
 		   <?php }?>
 			
 			
