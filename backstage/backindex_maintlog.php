@@ -141,7 +141,7 @@ function IsertCheckPicANDLog($uid,$pic_subject,$pic_url,$img_dir){
         $data_function->setDb('maintainlog_photo');
        
         $ufile = $data_function->assembly_files($_FILES,$pic_subject);
-        //var_dump("file:".$ufile);
+         
         foreach($ufile as $v1){
           $files_name = $v1[$pic_url]['name'];
           $file_tmp_name = $v1[$pic_url]['tmp_name'];
@@ -186,9 +186,7 @@ function UpdCheckImg($pic_subject){
     
     $update_expression = " `$pic_subject` = '".$$pic_subject."'";
     
-   // var_dump("where:".$where_expression);
-   // var_dump("update:".$update_expression);
-     
+    
     
     $data_function = new data_function;
     $data_function->setDb('maintainlog_photo');
@@ -199,7 +197,7 @@ function UpdCheckImg($pic_subject){
 
 function ViewCheckLog($page,&$equname,&$coname,&$maint_id,&$keyword,&$data,&$Firstpage,&$Listpage,&$Endpage){
     $maint_id=$_POST['equipment_id'];
-    //var_dump("設備".$maint_id);
+   
     $data_function = new data_function; //建立資料庫物件
     $data_function->setDb("maintain");
     $where_expression = "AND `maint_id` = '".$maint_id."' ";
@@ -213,36 +211,36 @@ function ViewCheckLog($page,&$equname,&$coname,&$maint_id,&$keyword,&$data,&$Fir
       if(isset($_POST['wkoa'])){ //按鈕搜尋:submit
         $what_kind_of_action = $_POST['wkoa'];
         if($what_kind_of_action=='keyin'){
-          //var_dump("keyin mode");
+         
           if(isset($_POST['keyword'])){
-            //var_dump("3");
+            
             $_SESSION['SQL']=$_POST['keyword'];
             $keyword=$_POST['keyword'];
           }
         }
         elseif($what_kind_of_action=='turn'){ //應該不會執行
-          //var_dump("trun mode");
+           
           if(isset($_SESSION['SQL'])){
-            //var_dump("2");
+           
             $keyword=$_SESSION['SQL'];
           }
         }
       }else{ //頁數:submit
-        //var_dump("init");
+        
         if(isset($_POST['keyword'])){
-          //var_dump("1");
+          
           $_SESSION['SQL']=$_POST['keyword'];
           $keyword=$_POST['keyword'];
         }
       }
       
-      //var_dump($keyword);
+      
       if (!empty($keyword)){
           $txt_sql="
           AND `check_state` = 1
           AND (`check_time` LIKE '%".$keyword."%' 
           OR `remark` LIKE '%".$keyword."%') 
-          ORDER BY `check_time` DESC
+          ORDER BY `uid` DESC
           ";
           /*
           OR `takes_time` LIKE '%".$keyword."%' 
@@ -258,7 +256,7 @@ function ViewCheckLog($page,&$equname,&$coname,&$maint_id,&$keyword,&$data,&$Fir
           */
       }
       else{
-         $txt_sql= " AND `check_state`=1 ORDER BY `check_time` DESC";
+         $txt_sql= " AND `check_state`=1 ORDER BY `uid` DESC";
         /*  $txt_sql="
           AND `disable` = '1' 
           ORDER BY `a`.`takes_time` DESC
@@ -281,23 +279,22 @@ function ViewCheckLog($page,&$equname,&$coname,&$maint_id,&$keyword,&$data,&$Fir
 }
 
 function SendCheck(){
-        //die($_POST['sendorupdate']);
+       
    // $sendorupdate=$_POST['sendorupdate'];//20130116 新增
 //-----------------------------------信件發放:單筆 與 多筆 (所以要跑迴圈把簽名塞到每一列記錄中)-------------------------------------------
     $post=$_POST['arr'];//arr:二維陣列 被選取發放信件的列
- // var_dump($post);
+  
   //  @$chkbox=$_POST['chkbox'];//null;
-  //var_dump($chkbox);
+  
     $sign_code=$_POST['sign_code'];//住戶簽名
-// var_dump($sign_code);
+ 
     $admin_sign_code=$_POST['admin_sign_code'];//管理員簽名
-// var_dump($admin_sign_code);
+ 
   
   //@$space1_code=$_POST['space1_code'];//@代表出錯不顯示錯誤訊息
   //@$space2_code=$_POST['space2_code'];
   
- //  var_dump($space1_code);
- //  var_dump($space2_code);
+ 
   
   $count_post=count($post);//被選取的信件筆數
   $ccount_post=count($post[$count_post-1]);//每一筆信件的攔位數量
@@ -308,7 +305,7 @@ function SendCheck(){
   //var_dump("列:".$count_post);
   //var_dump("====");
   //var_dump("欄:".$ccount_post);
-  //die();
+ 
 
   $pages = new data_function;
   $pages->setDb('maintainlog');
@@ -331,7 +328,6 @@ function SendCheck(){
       
       $where_expression = "AND `uid` =".$post[$x]['uid'];
       
-      //var_dump($update_expression."-----".$where_expression);
       $pages->update($where_expression,$update_expression);
   }
    GotoMaintPage();
@@ -346,7 +342,7 @@ function CancelCheck(){
       for($x=0;$x<=$count_chkbox;$x++){
         $all_no =($x!=$count_chkbox)?$all_no."$chkbox[$x],": $all_no."$chkbox[$x]";
       }
-      //die("數量".$count_chkbox."index:".$all_no);
+      
     $no=0;
     if($count_chkbox>=0){
       $pages = new data_function;
@@ -366,7 +362,7 @@ function GotoMaintPage(){
     echo "window.location.href = 'backindex_maint.php'";
     echo "</script>";
 }
-  var_dump($action_mode);
+  
 
 
   $img_dir="maintlog_photo";
@@ -395,14 +391,14 @@ switch($action_mode){
     
     $chkbox=$_POST['chkbox'];
     $uid=$chkbox[0];
-    //var_dump("index:".$uid);
+   
     ShowSelectData($uid,$data,$row_RecPhoto,$main_name,$main_id);
     include(VIEW.'/maintlog/checkmaint.php');
   
   break;
   case "addpic": //update
       $uid=$_POST['uid'];
-      //var_dump("index:".$uid);
+      
         //MARK1();
         IsertCheckPicANDLog($uid,$pic_subject,$pic_url,$img_dir);
         //MARK2();
@@ -413,7 +409,7 @@ switch($action_mode){
  
   case "delete_image": 
       $uid=$_POST['maintainlog_uid'];
-      //var_dump($uid);
+      
       DelCheckImg($img_dir);
       ShowSelectData($uid,$data,$row_RecPhoto,$main_name,$main_id);
       include(VIEW.'/maintlog/checkmaint.php');
@@ -424,16 +420,15 @@ switch($action_mode){
       UpdCheckImg($pic_subject);
       ShowSelectData($uid,$data,$row_RecPhoto,$main_name,$main_id);
       include(VIEW.'/maintlog/checkmaint.php');
-    break;
-  case "finish_check":////與backindex_mail.php action_mode=fix比對
-      SendCheck();
-    break;
+    break;  
   case "checkequyes":
      ViewCheckLog($page,$equname,$coname,$maint_id,$keyword,$data,$Firstpage,$Listpage,$Endpage);
      $main_name = '查詢設備驗收';
       include(VIEW.'/maintlog/checkequyes.php');
     break;
-    
+  case "finish_check":////與backindex_mail.php action_mode=fix比對
+      SendCheck();
+    break;
   case "cancelcheck":
     CancelCheck();
     break;

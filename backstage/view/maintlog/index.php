@@ -56,10 +56,11 @@ function checksubmit(){
           $color_no=0;
           foreach($maintData as $row){
          
+            $maintdate=split(" ",$row["maint_time"]);
             $color=ChangRowColor($row["maint_time"]);
             echo "<tr style='background-color:".$color.";' onMouseOver='this.style.backgroundColor=\"#ddddee\"' onMouseOut='this.style.backgroundColor=\"".$color."\"'>\n";
             echo "<td>"."&nbsp;".'<input type="radio" name="chkbox[]" onClick="checksubmit()" value="'.$row["uid"].'" />'."</td>\n"; //主索引 
-            echo "<td>".$row["maint_time"]."</td>\n";
+            echo "<td>".$maintdate[0]."</td>\n";
             echo "<td>".$equname."</td>\n";
             echo "<td>".$coname."</td>\n";
             echo "<td>".$row["remark"]."</td>\n";

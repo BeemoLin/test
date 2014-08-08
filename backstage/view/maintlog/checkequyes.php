@@ -146,14 +146,14 @@ function closepic(){
                           foreach($data as $row){
                               
                               $color=CrossRowColor($color_no);
-                              
+                              $maintdate=split(" ",$row["maint_time"]);
                               echo '<tr id="'.'list_data'.$color_no.'" 
                                     style="background-color:'.$color.';" 
                                           onClick="showtotable(this)" 
                                           onMouseOver="this.style.backgroundColor=\'#ffaaaa\'" 
                                           onMouseOut="this.style.backgroundColor=\''.$color.'\'" ';
                                     //if(empty($disable)||$disable=='0'){
-                                    echo 'tb1="'.$row["maint_time"].'" ';
+                                    echo 'tb1="'.$maintdate[0].'" ';
                                     //}
                                     //else{
                                     //echo 'tb1="'.$row["receives_time"].'" ';

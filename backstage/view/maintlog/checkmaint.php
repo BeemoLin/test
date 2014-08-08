@@ -445,7 +445,7 @@ function chang_pic_subject(path, input_id, pic_id, pic_subject_name){
 
 
 <div style="height:80px;"><!--排版用空白區塊--></div>
-<div style="clear: both;" align="center"><?php echo $main_name;?></div>
+<div style="clear: both;" align="center"><?=$main_name;?></div>
 <div id="main">
   <div id="main_fix_table">
     <form enctype="multipart/form-data" name="form" id="form" method="post" action="backindex_maintlog.php">
@@ -463,110 +463,53 @@ function chang_pic_subject(path, input_id, pic_id, pic_subject_name){
       
       <div style="float: left; width: 300px;" id="signature">
 <?php
-      //if(isset($data)){
+      
         $no=0;
         foreach($data as $row) { //二維陣列:arr[列][   submit 使用post取值
 ?>
         <div style="margin-bottom:30px;">
-          編號　　　：<input name="" value='<?php echo $row["uid"]; ?>' type='text' disabled='true' /><br /> 
-                  <input name="arr[<?php echo $no; ?>][uid]" value='<?php echo $row['uid']; ?>' type='hidden' />
+          編號　　　：<input name="" value='<?=$row["uid"]?>' type='text' disabled='true' /><br /> 
+                  <input name="arr[<?=$no?>][uid]" value='<?=$row['uid']?>' type='hidden' />
         </div>
         <div style="margin-bottom:30px;">
-          保養日期　：<input name="" value='<?php echo $row['maint_time']; ?>' disabled='true'><br /> 
-                  <input name="arr[<?php echo $no; ?>][maint_time]" value='<?php echo $row['maint_time']; ?>' type='hidden'>
-        </div>
         
-        
-        <?php
-        if(0>1){
-        ?>
-        <div style="margin-bottom:30px;">
-        <!--<select name="arr[<?php echo $no; ?>][letter_category]" id="arr[<?php echo $no; ?>][letter_category]" onchange="categoryChange(this.value,'arr[<?php echo $no; ?>][letter_alt]','arr[<?php echo $no; ?>][letters_number]')">-->
-          <font style="color:red;margin-bottom:30px;">*</font>信件類別 ：<select name="arr[<?php echo $no; ?>][letter_category]" id="letter_category" onchange="categoryChange(this.value,'arr[<?php echo $no; ?>][letter_alt]','arr[<?php echo $no; ?>][letters_number]')">
-            <option value=''>請選擇信件種類</option>
-            <?php foreach($data1 as $v) { ?>
-            <option value="<?php echo $v['type'];?>" <?php if($row['letter_category']==$v['type']){echo "selected='selected'";}?>>
-            <?php echo $v['type'];?>
-            </option>
-            <?php }?>
-          </select>
+          <?php $maintdate=split(" ",$row["maint_time"]); ?>
+          保養日期　：<input name="" value='<?=$maintdate[0]?>' disabled='true'><br /> 
+                  <input name="arr[<?=$no?>][maint_time]" value='<?=$maintdate[0]?>' type='hidden'>
         </div>
-        
-       
-<!--貨運公司 ：<select name="arr[<?php echo $no; ?>][letter_alt]" id="arr[<?php echo $no; ?>][letter_alt]">-->
-        <div id="letter_alt_table" style="margin-bottom:30px;" <?php if($row['letter_category']=="住戶代轉"){echo 'style="display:none"' ; } ?>>
-          <font style="color:red;">*</font>貨運公司 ：<select name="arr[<?php echo $no; ?>][letter_alt]" id="letter_alt">
-            <option value=''>請選擇公司名稱</option>
-            <?php foreach($data4 as $v) { ?>
-            <option value="<?php echo $v['Logistics_Company_Name'];?>" <?php if($row['letter_alt']==$v['Logistics_Company_Name']){echo "selected='selected'";}?>>
-            <?php echo $v['Logistics_Company_Name'];?>
-            </option>
-            <?php }?>
-            <option id="alt_option" value="管理室" <?php if($row['letter_alt']=='管理室'){echo "selected='selected'";}?>>管理室</option>
-          </select>
-        </div>
-        
-        <div style="margin-bottom:30px;">
-         <!-- <font style="color: red">*</font>收件者姓名：<input name="arr[<?php echo $no; ?>][receives_name]" id="arr[<?php echo $no; ?>][receives_name]" value='<?php echo $row['receives_name']; ?>'>-->
-          <font style="color: red">*</font>收件者姓名：<input name="arr[<?php echo $no; ?>][receives_name]" id="receives_name" value='<?php echo $row['receives_name']; ?>'>
-        </div>
-        <div style="margin-bottom:30px;">
-        <!--<select name="arr[<?php echo $no; ?>][m_username]" id="arr[<?php echo $no; ?>][m_username]">-->
-          <font style="color: red">*</font>住戶住址 ： <select name="arr[<?php echo $no; ?>][m_username]" id="m_username">
-            <option <?php if($row['m_username']==""){echo 'selected="selected"';}?> value=''>請選擇住戶</option>
-            <?php foreach($data2 as $v){ ?>
-            <option value="<?php echo $v['m_username'];?>" <?php if($row['m_username']==($v['m_username'])){echo 'selected="selected"'; $_SESSION['arr'.$no]['old_username'] = $v['m_username']; }?>>
-            <?php echo $v['m_address'].' - '.$v['m_username'];?>
-            </option>
-            <?php }?>
-          </select><br />
-        </div>
-        <div id="letters_number_table" <?php if($row['letter_category']=="住戶代轉"){echo 'style="display:none"' ; } ?>>
-          <div>
-           <!-- <font style="color: red">*</font>  ：<input name="arr[<?php echo $no; ?>][letters_number]" id="arr[<?php echo $no; ?>][letters_number]" myid="<?php echo $row['id'];?>" myno="<?php echo $no;?>" onkeyup="chkMail(this)" AutoComplete="Off" value='<?php echo $row['letters_number']; ?>'>-->
-            <font style="color: red;margin-bottom:30px;">*</font>函件編號 ：<input name="arr[<?php echo $no; ?>][letters_number]" id="letters_number" myid="<?php echo $row['id'];?>" myno="<?php echo $no;?>" onkeyup="chkMail(this)" AutoComplete="Off" value='<?php echo $row['letters_number']; ?>'>
-          </div>
-          <div id="arr[<?php echo $no; ?>][check]">&nbsp;</div>
-        </div>
-        <div style="margin-bottom:30px;">
-          &nbsp;&nbsp;寄件者姓名：<input name="arr[<?php echo $no; ?>][sends_name]" maxlength="10" onkeyup="CheckMaxlength(this);" value='<?php echo $row['sends_name']; ?>'><br />
-        </div>
-        <div style="margin-bottom:30px;">
-          &nbsp;&nbsp;寄件者地址：<input name="arr[<?php echo $no; ?>][sends_add]" value='<?php echo $row['sends_add']; ?>'><br />
-        </div>
-         <?php }?>
+      
         <div style="margin-bottom:30px;">
         <!--<font style="color: red">*</font>-->
-          是否保養：<input type="radio" name="arr[<?php echo $no; ?>][showmaint]" id="arr[<?php echo $no; ?>][showmaint][1]" value='1' <?php if($row['maint_state']=='1'){ echo 'checked="checked"'; }?> />是&nbsp;
-          <input type="radio" name="arr[<?php echo $no; ?>][showmaint]" id="arr[<?php echo $no; ?>][showmaint][0]" value='0' <?php if($row['maint_state']=='0'){ echo 'checked="checked"'; }?> />否<br />
+          是否保養：<input type="radio" name="arr[<?=$no?>][showmaint]" id="arr[<?=$no?>][showmaint][1]" value='1' <?php if($row['maint_state']=='1'){ echo 'checked="checked"'; }?> />是&nbsp;
+          <input type="radio" name="arr[<?=$no?>][showmaint]" id="arr[<?=$no?>][showmaint][0]" value='0' <?php if($row['maint_state']=='0'){ echo 'checked="checked"'; }?> />否<br />
         </div>
         <div style="margin-bottom:30px;">
           <!--<font style="color: red">*</font>-->
-          是否驗收：<input type="radio" name="arr[<?php echo $no; ?>][showcheck]" id="arr[<?php echo $no; ?>][showcheck][1]" value='1' <?php if($row['check_state']=='1'){ echo 'checked="checked"'; }?> />是&nbsp;
-          <input type="radio" name="arr[<?php echo $no; ?>][showcheck]" id="arr[<?php echo $no; ?>][showcheck][0]" value='0' <?php if($row['check_state']=='0'){ echo 'checked="checked"'; }?> />否<br />
+          是否驗收：<input type="radio" name="arr[<?=$no?>][showcheck]" id="arr[<?=$no?>][showcheck][1]" value='1' <?php if($row['check_state']=='1'){ echo 'checked="checked"'; }?> />是&nbsp;
+          <input type="radio" name="arr[<?=$no?>][showcheck]" id="arr[<?=$no?>][showcheck][0]" value='0' <?php if($row['check_state']=='0'){ echo 'checked="checked"'; }?> />否<br />
         </div>
          <div style="margin-bottom:30px;">
-         驗收時間：<input name="arr[<?php echo $no; ?>][check_time]" value='<?php echo $row['check_time']; ?>' onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"><br />
+         驗收時間：<input name="arr[<?=$no?>][check_time]" value='<?=$row['check_time']?>' onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"><br />
         </div>
         
          <div style="margin-bottom:30px;">
-          &nbsp;&nbsp;備註：<textarea name="arr[<?php echo $no; ?>][remark]" id="arr[<?php echo $no; ?>][remark]" cols="45" rows="5" ><?=$row['remark']?></textarea><br />
+          &nbsp;&nbsp;備註：<textarea name="arr[<?=$no?>][remark]" id="arr[<?=$no?>][remark]" cols="45" rows="5" ><?=$row['remark']?></textarea><br />
         </div>
         
         <?php echo "<br /><br /><br /><br /><br />________________________________________________________________________________________________";?>
         
-      <div style="position: relative; border: 0px solid; width: 860px; height: 550px;">
-        <p class="heading"><?php echo $img_title;?></p>
+      <div style="position: relative; border: 0px solid; width: 1020px; height: 450px;">
+        <p class="heading"><?=$img_title?></p>
           <?php
           $no = 0;
       		foreach($row_RecPhoto as $v){ 
       		$no++;
       		?>
       		  <div style="float:left;margin:1px;"> <!--left:50px;float:left;margin:1px;class="div"-->
-      			<img src="<?php echo $img_dir.'/'.$v[$pic_url]; ?>" alt="" width="100" height="100" border="0" /><br />
-      			<input type="text" name="<?php echo $pic_subject.$no;?>" value="<?php echo $v[$pic_subject];?>" id="<?php echo $pic_subject.$no;?>" style="width:100px;" /><br />
-      			<input type="button" name="button" id="button" value="刪除" onclick="tfm_confirmLink('你確定要刪除???','<?php echo $form;?>',{'action_mode':'delete_image','maintainlog_uid':'<?=$v['maintainlog_uid']?>','uid':'<?=$v['uid']?>','check_picurl':'<?=$v['check_picurl']?>','img_dir':'<?php echo $img_dir;?>'});" />
-      			<input type="button" name="button2" id="button2" value="更新" onclick="chang_pic_subject('<?=$form;?>', '<?=$v['maintainlog_uid']?>', '<?=$v['uid']?>', '<?=$pic_subject.$no;?>')"/>
+      			<img src="<?=$img_dir.'/'.$v[$pic_url]?>" alt="" width="100" height="100" border="0" /><br />
+      			<input type="text" name="<?=$pic_subject.$no?>" value="<?=$v[$pic_subject]?>" id="<?=$pic_subject.$no?>" style="width:100px;" /><br />
+      			<input type="button" name="button" id="button" value="刪除" onclick="tfm_confirmLink('你確定要刪除???','<?=$form?>',{'action_mode':'delete_image','maintainlog_uid':'<?=$v['maintainlog_uid']?>','uid':'<?=$v['uid']?>','check_picurl':'<?=$v['check_picurl']?>','img_dir':'<?=$img_dir?>'});" />
+      			<input type="button" name="button2" id="button2" value="更新" onclick="chang_pic_subject('<?=$form?>', '<?=$v['maintainlog_uid']?>', '<?=$v['uid']?>', '<?=$pic_subject.$no;?>')"/>
       		  </div>
       		<?php }?>
          <!--class="show" style="clear:both;"-->
@@ -578,13 +521,13 @@ function chang_pic_subject(path, input_id, pic_id, pic_subject_name){
           for($no;$no<(int)$pic_max;$no++){
           ?>
           <div style="float:left;margin:0px;">
-          <p><?php echo '照片'.$show_no; ?>：
+          <p><?='照片'.$show_no?>：
             
-            <input type="file" name="<?php echo $pic_url.'[]';?>" id="<?php echo $pic_url.$show_no;?>" />
+            <input type="file" name="<?=$pic_url.'[]'?>" id="<?=$pic_url.$show_no?>" />
             <!--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
           <?php if($enable_pic_subject=='true'){ //開啟說明?>
-            說明<?php echo $show_no;?>：
-            <input type="text" name="<?php echo $pic_subject.$show_no;?>" id="<?php echo $pic_subject.$show_no;?>"/>
+            說明<?=$show_no?>：
+            <input type="text" name="<?=$pic_subject.$show_no?>" id="<?=$pic_subject.$show_no?>"/>
           <?php } ?>
           </p>
           </div>
@@ -598,7 +541,7 @@ function chang_pic_subject(path, input_id, pic_id, pic_subject_name){
         <?php
         $no++;
         }
-      //}
+    
       ?>
       
         <div style="float: left">
