@@ -70,7 +70,8 @@
                                       <td height="30">
                                         <table width="100%" border="0" cellspacing="0" cellpadding="0">
                                           <tr>
-                                            <td width="19%" align="right"><a href="maint.php"> <img src="img/BTN/back.png"  width="110" height="30" border="0" /> </a>
+                                          
+                                            <td width="19%" align="right"><input type="button" value="返回" onclick="post_to_url('checkmaintlist.php', {'equipment_id':'<?=$equipment_id?>'});">
                                             </td>
                                           </tr>
                                         </table>

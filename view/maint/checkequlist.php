@@ -20,13 +20,13 @@
                      
                               $no=0;
                     					foreach($data as $key => $value){
-                    					$color=CrossRowColor((int)$value['check_state']);
+                    					$color=CrossRowColor($no);
                     					//$yesno=((int)$value['check_state']>0)?"是":"否";
                     					$maintdate=split(" ",$value['maint_time']);
                              	  echo "<tr bgcolor=".$color.">"."\n";?>
                     						
                     
-<td style="text-align: center;"><a href="#" onclick="post_to_url('showcheckpic.php',{'action_mode':'index','equipment_id':'<?=$value['maint_id']; ?>'});"><?=$equname?></a></td>
+<td style="text-align: center;"><a href="#" onclick="post_to_url('showcheckpic.php',{'action_mode':'index','equipment_id':'<?=$value['maint_id']; ?>','uid':'<?=$value['uid']; ?>'});"><?=$equname?></a></td>
                                 
                                 <?php echo '<td style="text-align: center;">'.$maintdate[0]."</td>\n";
                     					 	echo '<td style="text-align: center;">'.$value['remark']."</td>\n";

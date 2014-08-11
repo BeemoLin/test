@@ -8,8 +8,8 @@ require_once('includes/authorization.php');
 $_SESSION['from_web'] = basename($_SERVER[SCRIPT_FILENAME]);
 
 
-function CrossRowColor($yesno){
-   return ($yesno>0)?"'##008888'":"'#AA0000'";
+function CrossRowColor($no){
+   return ($no % 2 >0)?"'#008888'":"'#004EA0'";
 }
 function ShowEquCheck($page,$equipment_id,&$equname,&$data,&$Firstpage,&$Listpage,&$Endpage){
 

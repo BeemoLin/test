@@ -10,7 +10,7 @@ if(isset($_POST)){
 		$$key = $value;
 	}
 }
-function ShowCheckPic($equipment_id,&$equname,&$dataphoto){
+function ShowCheckPic($equipment_id,$uid,&$equname,&$dataphoto){
   if(isset($equipment_id)){
     $data_function = new data_function; //建立資料庫物件
     
@@ -19,17 +19,16 @@ function ShowCheckPic($equipment_id,&$equname,&$dataphoto){
     $dataequ = $data_function->select($where_expression);
     $equname="設備名稱:".$dataequ[1]["maint_name"];
   
-    $data_function->setDb("maintainlog");
+   /* $data_function->setDb("maintainlog");
     $where_expression = " AND `maint_id` = ".$equipment_id." ORDER BY `uid` DESC  LIMIT 1";
     $datalog = $data_function->select($where_expression);
-    $uid=$datalog[1]["uid"];
-    
+    $uid=$datalog[1]["uid"];*/
     $data_function->setDb("maintainlog_photo");
     $where_expression = " AND `maintainlog_uid` = ".$uid." ORDER BY `uid`";
     $dataphoto = $data_function->select($where_expression);
   }
 }
- ShowCheckPic($equipment_id,$equname,$dataphoto);
+ ShowCheckPic($equipment_id,$uid,$equname,$dataphoto);
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
