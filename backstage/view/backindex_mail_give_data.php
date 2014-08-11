@@ -541,15 +541,15 @@ function categoryChange(s,t,u){
        
         <div id="dCanvas" style="float: right; text-align: center;">
            <!--<div id="showtext1" style="border: 2px solid gray; width: 10px; height: 10px;"></div>--> 收件者簽名：<br />
-         <div  width="320" height="240" id="show_pic01" style="border: 2px solid gray; width: 320px; height: 240px;">
-            <img width="320" height="240" id="pic01" style="width: 320px; height: 240px;" src="" /><!-- 使用src顯示picture-->
+         <div  width="335" height="255" id="show_pic01" style="border: 0px solid gray; width: 335px; height: 255px;">
+            <img width="320" height="240" id="pic01" style="border: 2px solid gray;width: 320px; height: 240px;" src="" /><!-- 使用src顯示picture-->
           </div>
         </div>
 
         <div id="dCanvas2" style="float: right; text-align: center;">
         <br /><!--<div id="showtext2" style="border: 2px solid gray; width: 10px; height: 10px;"></div>--> 管理員簽名：<br />
-          <div width="320" height="240" id="show_pic02" style="border: 2px solid gray; width: 320px; height: 240px;">
-            <img width="320" height="240" id="pic02" style="width: 320px; height: 240px;" src="" /><!-- 使用src顯示picture-->
+          <div width="335" height="255" id="show_pic02" style="border: 0px solid gray; width: 335px; height: 255px;">
+            <img width="320" height="240" id="pic02" style="border: 2px solid gray;width: 320px; height: 240px;" src="" /><!-- 使用src顯示picture-->
           </div>
         </div>
       </div>

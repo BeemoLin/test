@@ -56,12 +56,12 @@ function callbackbase64()
         if(picid=="1")
         {
           //document.getElementById("showtext1").style.backgroundColor="#FFFFFF";
-           document.getElementById("show_pic01").style.border= "2px solid gray";
+           document.getElementById("show_pic01").style.border= "0px solid gray";
         }
         else if(picid=="2")
         {
          // document.getElementById("showtext2").style.backgroundColor="#FFFFFF";
-           document.getElementById("show_pic02").style.border= "2px solid gray";
+           document.getElementById("show_pic02").style.border= "0px solid gray";
         }
         document.getElementById("blockPicid").value="UnLock";
       }

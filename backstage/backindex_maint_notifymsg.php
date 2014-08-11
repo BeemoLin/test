@@ -31,20 +31,17 @@ function GetMysqlVarible(){
 
 function GetSqlString($command, $para1, $para2){
   switch($command){
-    case "SeekEqu":  //SeekTableName
+    case "SeekEqu":   
         $sql = "SELECT * FROM  `maintain` ORDER BY  `maint_id`";//where  `maint_id`=14 
         break;
-    case "InsertLog":  //剩下保養時間
+    case "InsertLog":  
        $sql= "INSERT INTO `maintainlog` SET `maint_id`=".(int)$para1.",`maint_time`='".$para2."'";
        //echo  $sql;
       break;
     case "SeekMember":
         $sql="SELECT * FROM `maintainer` WHERE `maint_id`=".(int)$para1 ;
       break;
-   /* case "Sended":
-        //$base64code=str_replace(" ", "+",$base64code);
-        //$sqlstring="UPDATE `writeboard` SET `lock` = '0',`data` = '".$base64code."' WHERE `writeboard`.`id` =1 LIMIT 1";
-        break;*/
+   
     default:
        $sql="";
   }
@@ -59,7 +56,6 @@ function TransformDuty($duty,$listday,$todayweek,$preday,&$msg){
         $num=($num>7)?(int)$num-7:(int)$num;
         $msg=((int)$listday==$num)?"Yes":"No";
         
-        //echo  $msg;
        /* $num=(int)$listday-(int)$preday;    
         $num=($num>0)?(int)$num:(int)$num+7;
         $msg=($todayweek==$num)?"Yes":"No";*/
@@ -78,7 +74,7 @@ function TransformDuty($duty,$listday,$todayweek,$preday,&$msg){
          $aday=date("m-d",mktime(0,0,0,date("m"),date("d")+(int)$preday,date("Y")));
          $adaylist=split("-",$aday);
          //當月的月份座落在指定的每季
-         //TEST!!
+         
          $msg=((int)$adaylist[1]==(int)$listday && in_array((int)$adaylist[0],$todayweek))?"Yes":"No"; //$todayweek 整數陣列 
          
         break;     
@@ -90,24 +86,24 @@ function InsetLog($conn,$equid,$maintdate){
   $result = mysql_query($sql,$conn) or die("InsertLog Err"); 
 }
 //送簡訊
-function NotifyMsg($conn,$equid){
+function NotifyMsg($conn,$equid,$equname){
   $UserID="23294915";
   $Passwd="0423294915";
-  $letter=urlencode("通知維護設備保養");
+  $letter=urlencode("通知設備保養,設備名稱:".$equname);
   
     $sql=GetSqlString("SeekMember",$equid);
     $memberdata = mysql_query($sql,$conn) or die("SeekMember Err"); 
     while($row = mysql_fetch_assoc($memberdata)){
-        //  echo "號碼 : ".$value."<br />";
+        
         $value=$row["phone"];
         if(is_null($value) || empty($value)) {
         }else{
-          if(0 > 1){
+          
             $net="http://smexpress.mitake.com.tw:9600/SmSendGet.asp?username=".$UserID."&password=".$Passwd."&dstaddr=".$value."&encoding=UTF8&DestName=AKAI&smbody=".$letter;
             $buffer = file_get_contents($net);
-          }
+          
         }
-        echo $equid."-".$value."\n";
+        echo $equname."-".$value."\n";
     } 
 }
  
@@ -162,7 +158,7 @@ function GetTodayWeek($duty,$block,&$todayweek){
         $summonth=(int)$amonth[1]+9;
         $blockmonth[3]=($summonth>12)?$summonth-12:$summonth;
     
-       // echo  $blockmonth[0]."!".$blockmonth[1]."!".$blockmonth[2]."!".$blockmonth[3];   
+          
         $todayweek =$blockmonth;// array("02","05","08","11");;
         break;
       case AHalfYear:   
@@ -174,7 +170,7 @@ function GetTodayWeek($duty,$block,&$todayweek){
         $summonth=(int)$amonth[1]+6;
         $blockmonth[1]=($summonth>12)?$summonth-12:$summonth; 
          
-       // echo  $blockmonth[0]."!".$blockmonth[1];  
+         
         $todayweek = $blockmonth;//array("02","08");
         break;
 
@@ -183,7 +179,7 @@ function GetTodayWeek($duty,$block,&$todayweek){
          
          $blockmonth=array();
          $blockmonth[0]=(int)$amonth[1];
-      //  echo  $blockmonth[0]."!";  
+        
         $todayweek =$blockmonth;// array("08");
         break;
       }
@@ -230,7 +226,17 @@ function MARK(){
       // $listday="10";
        //$listseason=array("08");
        //TransformDuty("5",$listday,$listseason,10,$msg);
-
+    /*function GetPostVarible()
+    {
+      if(isset($_POST))
+      {
+        foreach($_POST as $key => $value){
+          $$key = $value;
+          //echo '$'.$key.'='.$value."<br />\n";
+        }
+      }
+      return array($command, $mode, $base64code);
+    }*/
 }
 
 
@@ -244,31 +250,27 @@ function ProcessDb(){
   
   $sql=GetSqlString("SeekEqu","");
   $returnData = mysql_query($sql,$conn) or die("SeekEqu Err"); 
-    //$i=1;   
-    /*if(mysql_num_rows($result)>0)  //如果資料筆數出過0，代表有資料,此段可不加  */ 
+  
     while($row = mysql_fetch_assoc($returnData)){
       
       $maint_id=$row["maint_id"];
+      $maint_name=$row["maint_name"];
       $maint_cycle=$row["maint_cycle"];
       $maint_date=$row["maint_date"];
       $maint_notice=$row["maint_notice"];
       $update_at=$row["update_at"];
       
        GetTodayWeek($maint_cycle,$update_at,$todayweek);
-       //echo "!!".$todayweek;
+      
        GetListday($maint_cycle,$maint_date,$listday); //$row["maint_date"] start at index=0(week); start at index=1 (month)
-       //echo $listday;
+       
        TransformDuty($maint_cycle,$listday,$todayweek,$maint_notice,$msg);
        
        if($msg=="Yes"){ 
           $maintdate=date("Y-m-d" ,mktime(0,0,0,date("m"),date("d")+(int)$maint_notice,date("Y")) );
           InsetLog($conn,$maint_id,$maintdate);
-          NotifyMsg($conn,$maint_id);
-        }  
-        
-      //TransformToWhichDay("1",$whichday);        //保養日期  每期 上午下午 星期一 ~ 星期日   1日 ~ 31日  => 產生LOG檔 為了驗收用
-      //TransformToPreDuty("1",$preduty);    //預告週期  保養前 1 ~ 5 天   7 ~ 15 天    => 通知簡訊功能 通知保養人員與社區參與人員        
-          
+          NotifyMsg($conn,$maint_id,$maint_name);
+        }     
     }
   mysql_close ($conn);
 }
@@ -276,18 +278,4 @@ function ProcessDb(){
 
 ProcessDb();
 echo "\nOK";
-/*function GetPostVarible()
-{
-  if(isset($_POST))
-  {
-    foreach($_POST as $key => $value){
-      $$key = $value;
-      //echo '$'.$key.'='.$value."<br />\n";
-    }
-  }
-  return array($command, $mode, $base64code);
-}*/
-
-
-
 ?>
