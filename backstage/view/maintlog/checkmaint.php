@@ -230,17 +230,14 @@ jQuery(document).ready(function(){
          "background-color":"#E7CDFF";
       });*/
       //$('#show_pic02').hide();
-      if(document.getElementById("blockPicid").value=="UnLock")
-      {
+      if(document.getElementById("blockPicid").value=="UnLock"){
         //document.getElementById("showtext1").style.backgroundColor="#FF0000";
          document.getElementById("show_pic01").style.border= "8px solid red";
         document.getElementById("blockPicid").value="LOCK";
         //document.getElementById("show_pic01").style.backgroundColor="#C8C8C8 ";
         //  document.getElementById("show_pic02").hide();
         RunPicture("1");//藥袋參數 是住戶還是管理著
-      }
-      else
-      {
+      }else{
           alert("使用中");
       }
       return;//即可不用把原本的程式註解
@@ -305,16 +302,13 @@ jQuery(document).ready(function(){
     
     $('#show_pic02').click(function()
     {
-      if(document.getElementById("blockPicid").value=="UnLock")
-      {
+      if(document.getElementById("blockPicid").value=="UnLock"){
         //document.getElementById("showtext2").style.backgroundColor="#FF0000";
           document.getElementById("show_pic02").style.border= "8px solid red";
         document.getElementById("blockPicid").value="LOCK";
         //document.getElementById("show_pic02").style.backgroundColor="#C8C8C8 ";
         RunPicture("2");//藥袋參數 是住戶還是管理著
-       }
-       else
-       {
+       }else{
           alert("使用中");
        }
        return;//即可不用把原本的程式註解
@@ -468,13 +462,13 @@ function chang_pic_subject(path, input_id, pic_id, pic_subject_name){
         foreach($data as $row) { //二維陣列:arr[列][   submit 使用post取值
 ?>
         <div style="margin-bottom:30px;">
-          編號　　　：<input name="" value='<?=$row["uid"]?>' type='text' disabled='true' /><br /> 
+         <!-- 編號&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;：<input name="" value='<?//=$row["uid"]?>' type='text' disabled='true' /><br /> -->
                   <input name="arr[<?=$no?>][uid]" value='<?=$row['uid']?>' type='hidden' />
         </div>
         <div style="margin-bottom:30px;">
         
           <?php $maintdate=split(" ",$row["maint_time"]); ?>
-          保養日期　：<input name="" value='<?=$maintdate[0]?>' disabled='true'><br /> 
+          保養日期：<input name="" value='<?=$maintdate[0]?>' disabled='true'><br /> 
                   <input name="arr[<?=$no?>][maint_time]" value='<?=$maintdate[0]?>' type='hidden'>
         </div>
       
@@ -496,7 +490,7 @@ function chang_pic_subject(path, input_id, pic_id, pic_subject_name){
           &nbsp;&nbsp;備註：<textarea name="arr[<?=$no?>][remark]" id="arr[<?=$no?>][remark]" cols="45" rows="5" ><?=$row['remark']?></textarea><br />
         </div>
         
-        <?php echo "<br /><br /><br /><br /><br />________________________________________________________________________________________________";?>
+        <?php echo "<br /><br /><br /><br /><br /><br /><br />_________________________________________________________________________________________________________________";?>
         
       <div style="position: relative; border: 0px solid; width: 1020px; height: 450px;">
         <p class="heading"><?=$img_title?></p>
@@ -578,15 +572,16 @@ function chang_pic_subject(path, input_id, pic_id, pic_subject_name){
        
         <div id="dCanvas" style="float: right; text-align: center;">
            <!--<div id="showtext1" style="border: 2px solid gray; width: 10px; height: 10px;"></div>--> 保養人簽名：<br />
-         <div  width="320" height="240" id="show_pic01" style="border: 2px solid gray; width: 320px; height: 240px;">
-            <img width="320" height="240" id="pic01" style="width: 320px; height: 240px;" src="" /><!-- 使用src顯示picture-->
+         <div  width="335" height="255" id="show_pic01" style="border: 0px solid gray; width: 335px; height: 255px;">
+             <!-- <div  style="border: 2px solid gray;width: 10px; height: 2px;">-->
+            <img width="320" height="240" id="pic01" style="border: 2px solid gray;width: 320px; height: 240px;" src="<?=$data[1]['maint_name']?>" /><!-- 使用src顯示picture-->
           </div>
         </div>
 
         <div id="dCanvas2" style="float: right; text-align: center;">
         <br /><!--<div id="showtext2" style="border: 2px solid gray; width: 10px; height: 10px;"></div>--> 驗收人簽名：<br />
-          <div width="320" height="240" id="show_pic02" style="border: 2px solid gray; width: 320px; height: 240px;">
-            <img width="320" height="240" id="pic02" style="width: 320px; height: 240px;" src="" /><!-- 使用src顯示picture-->
+          <div width="335" height="255" id="show_pic02" style="border: 0px solid gray; width: 335px; height: 255px;">
+            <img width="320" height="240" id="pic02" style="border: 2px solid gray;width: 320px; height: 240px;" src="<?=$data[1]['check_name']?>" /><!-- 使用src顯示picture-->
           </div>
         </div>
       </div>

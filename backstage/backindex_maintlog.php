@@ -287,13 +287,13 @@ function SendCheck(){
   //  @$chkbox=$_POST['chkbox'];//null;
   
     $sign_code=$_POST['sign_code'];//住戶簽名
- 
+   
     $admin_sign_code=$_POST['admin_sign_code'];//管理員簽名
- 
+   
   
   //@$space1_code=$_POST['space1_code'];//@代表出錯不顯示錯誤訊息
   //@$space2_code=$_POST['space2_code'];
-  
+
  
   
   $count_post=count($post);//被選取的信件筆數

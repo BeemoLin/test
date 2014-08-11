@@ -9,9 +9,9 @@
                         <table style="padding:0 20px;width:100%">
                     									<thead>
                     										<tr>
-                    											<th scope="col" style="width:118px;">預約設備</th>
-                    											<th scope="col" style="width:240px;">保養日期</th>
-                    											<th scope="col" style="width:79px;">是否驗收</th>
+                    											<th scope="col" style="width:150px;">預約設備</th>
+                    											<th scope="col" style="width:150px;">保養日期</th>
+                    											<th scope="col" style="width:250px;">備註</th>
                     										</tr>
                     									</thead>
                     			<tbody>
@@ -21,12 +21,15 @@
                               $no=0;
                     					foreach($data as $key => $value){
                     					$color=CrossRowColor((int)$value['check_state']);
-                    					$yesno=((int)$value['check_state']>0)?"是":"否";
+                    					//$yesno=((int)$value['check_state']>0)?"是":"否";
                     					$maintdate=split(" ",$value['maint_time']);
-                             	  echo "<tr bgcolor=".$color.">"."\n";
-                    						echo '<td style="text-align: center;">'.$equname."</td>\n";
-                                echo '<td style="text-align: center;">'.$maintdate[0]."</td>\n";
-                    					 	echo '<td style="text-align: center;">'.$yesno."</td>\n";
+                             	  echo "<tr bgcolor=".$color.">"."\n";?>
+                    						
+                    
+<td style="text-align: center;"><a href="#" onclick="post_to_url('showcheckpic.php',{'action_mode':'index','equipment_id':'<?=$value['maint_id']; ?>'});"><?=$equname?></a></td>
+                                
+                                <?php echo '<td style="text-align: center;">'.$maintdate[0]."</td>\n";
+                    					 	echo '<td style="text-align: center;">'.$value['remark']."</td>\n";
                     						echo "</tr>\n";
                     						$no++;
                     					}

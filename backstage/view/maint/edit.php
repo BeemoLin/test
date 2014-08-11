@@ -23,14 +23,8 @@
         </select>
       </div>
       <div class="form-group form-inline">
-        <label>保養日期</label>
-        <select name="maint_date" id="maint_date" class="form-control">
-          <option>請先選擇保養週期</option>
-        </select>
-      </div>
-      <div class="form-group form-inline">
-        <label>前台顯示</label>
-        <div class="radio">
+        <label>保養日期&nbsp;&nbsp;&nbsp;&nbsp;每期</label>
+         <div class="radio">
           <label>
             <input type="radio" name="maint_period" id="maint_period_am" value="0" checked>上午</input> 
           </label>
@@ -40,9 +34,13 @@
             <input type="radio" name="maint_period" id="maint_period_pm" value="1">下午</input>
           </label>
         </div>
+        <select name="maint_date" id="maint_date" class="form-control">
+          <option>請先選擇保養週期</option>
+        </select>
+        
       </div>
       <div class="form-group form-inline">
-        <label>保養提前通知</label>
+        <label>預告週期&nbsp;&nbsp;&nbsp;&nbsp;保養前</label>
         <select name="maint_notice" id="maint_notice" class="form-control">
           <option>請先選擇保養日期</option>
         </select><span> 天前</span>

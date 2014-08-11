@@ -21,7 +21,7 @@ function ShowEquCheck($page,$equipment_id,&$equname,&$data,&$Firstpage,&$Listpag
     $equname=$dataequ[1]["maint_name"];
   
   
-  	$where = " AND `maint_id` = ".$equipment_id." ORDER BY `uid` DESC";
+  	$where = " AND `maint_id` = ".$equipment_id." AND check_state	=1 ORDER BY `uid` DESC";
     $pages = new sam_pages_class;
     $pages->setDb("maintainlog", $where, "*");
     $pages->setPerpage(10,$page);

@@ -24,11 +24,11 @@ $pages->action_mode('index');
 $select_expression = '`maint_id`, `maint_name`, `maint_cycle`, `maint_date`, `maint_period`, `maint_notice`, `maint_visible`, `maint_co`, `maint_co_tel`, `update_at`, (select `name` FROM `maintainer` WHERE  `maintainer`.`maint_id` = `maintain`.`maint_id` AND `maint_type` = 1 LIMIT 0 , 1) AS `maintainer`, (select `check_state` FROM `maintainlog` WHERE  `maintainlog`.`maint_id` = `maintain`.`maint_id` ORDER BY `uid` DESC LIMIT 0 , 1) AS `maint_state`';
 
 $DBname = '`maintain`';
-$where_expression = ' ORDER BY `maint_id` ASC ';
+$where_expression = ' AND `maint_visible`=1 ORDER BY `maint_id` ASC ';
 
 $pages->setDb($DBname, $where_expression, $select_expression);
 $pages->setPerpage(10,$page);
-$pages->set_base_page('backindex_maint.php');
+$pages->set_base_page('maint.php');
 $Firstpage = $pages->getFirstpage2();
 $Listpage = $pages->getListpage2(2);
 $Endpage = $pages->getEndpage2();
