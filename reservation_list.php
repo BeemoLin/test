@@ -126,8 +126,9 @@ if(isset($equipment_id))
 		AND ";
 		
     
-    $sql=($equipment_id=="1000")? " 1 ":"`equipment_reservation_list`.`list_disable` = '0'";
-		$sort=" ORDER BY 
+   // $sql=($equipment_id=="1000")? " 1 ":"`equipment_reservation_list`.`list_disable` = '0'";
+		$sql=" 1 ";
+    $sort=" ORDER BY 
 			`equipment_reservation_list`.`list_datetime` DESC, 
 			`equipment_reservation_list`.`equipment_id`  ASC
 		";
@@ -161,12 +162,12 @@ else
     //echo  "無設備名稱";
  //die("點選已預約清單全撈項目");
    //	AND
-	//		`equipment_reservation_list`.`list_disable` = '0'
+	//		`equipment_reservation_list`.`list_disable` = '0'  LOG 全部show
+	
+	
 	$where = "
 		AND
 			`equipment_reservation_list`.`m_id` = '".$m_id."'
-		AND
-    	`equipment_reservation_list`.`list_disable` = '0'
     ORDER BY 
 			`equipment_reservation_list`.`list_datetime` DESC, 
 			`equipment_reservation_list`.`equipment_id`  ASC
@@ -184,6 +185,18 @@ else
   // echo $Endpage;
   $array = $pages->getData();
 }
+
+
+function ComputePrice($equid,$usecount,&$price){//For CC80               
+    switch($equid){
+      case "1000":
+        $price="付費".(int)$usecount*20;
+        break;
+    default:
+       $price="";              
+    }
+}
+                               
 //---------------------------------------------------------------------
 
 ?>

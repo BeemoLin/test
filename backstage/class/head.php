@@ -127,12 +127,26 @@
 		<script language="javascript"  type="text/javascript">
 				<!--
 				function onMouseOverImage(me) {
-					var me=document.getElementById(me)
-					me.src='images/back_btn/'+me.id+'_over.gif';
+					var btn=document.getElementById(me)
+            if(me==='maint')
+            {
+              btn.src='images/back_btn/'+btn.id+'_over.png';
+            }
+            else
+            {
+					    btn.src='images/back_btn/'+btn.id+'_over.gif';
+            }
 				}
 				function onMouseOutImage(me) {
-					var me=document.getElementById(me)
-					me.src='images/back_btn/'+me.id+'_out.gif';
+					var btn=document.getElementById(me)
+            if(me==='maint')
+            {
+              btn.src='images/back_btn/'+btn.id+'_out.png';
+            }
+            else
+            {
+              btn.src='images/back_btn/'+btn.id+'_out.gif';
+            }
 				}
 				//-->
         <!--
@@ -189,6 +203,7 @@
           <!-- // <div class="left_botton"><img name="rule" id="rule" alt="規約辦法" src="./images/back_btn/rule_out.gif" onmouseover="onMouseOverImage('rule')" onmouseout="onMouseOutImage('rule')" onclick="post_to_url('backindex_rule.php', {'action_mode':'view_all_data'})" /></div> // -->
           <div class="left_botton"><img name="rule" id="rule" alt="規約辦法" src="./images/back_btn/rule_out.gif" onmouseover="onMouseOverImage('rule')" onmouseout="onMouseOutImage('rule')" onclick="post_to_url('backindex_rules.php', {'action_mode':'view_all_data'})" /></div>
           <div class="left_botton"><img name="mail" id="mail" alt="郵件管理" src="./images/back_btn/mail_out.gif" onmouseover="onMouseOverImage('mail')" onmouseout="onMouseOutImage('mail')" onclick="post_to_url('backindex_mail.php', {'action_mode':'view_all_data'})" /></div>
+          <div class="left_botton"><img name="maint" id="maint" alt="設備保養" src="./images/back_btn/maint_out.png" onmouseover="onMouseOverImage('maint')" onmouseout="onMouseOutImage('maint')" onclick="post_to_url('backindex_maint.php', {'action_mode':'view_all_data'})" /></div>
 				</div>
 			</div>
 			<div id="allright" >

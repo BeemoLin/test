@@ -3223,7 +3223,7 @@ print $pages_navigation_RecHappy[0];
                     										<tr>
                     											<th scope="col" style="width:118px;">預約設備</th>
                     											<th scope="col" style="width:240px;">預約時間</th><!--20121117:187+79-->
-                    										<!--	<th scope="col" style="width:79px;">預約數</th>-->
+                    											<th scope="col" style="width:79px;">是否繳費</th><!--for cc80-->
                     											<th scope="col" style="width:79px;">取消預約</th>
                     										</tr>
                     									</thead>
@@ -3259,11 +3259,22 @@ print $pages_navigation_RecHappy[0];
                     						}
                     						echo '<td style="text-align: center;">'.$value2['equipment_name']."</td>\n";
                     						
-                    					//202121117 顯示日期 起 時:分~結束 時:分
-                    					 
+                    					 //202121117 顯示日期 起 時:分~結束 時:分
                                $timeformat= $checklisttime->equipment_reservation_list_list_endtime($value2['list_endtime'],$value2['list_time'],$value2['advance_end'],$value2['equipment_id'],$value2['list_datetime']);
-                                echo '<td style="text-align: center;">'.$timeformat."</td>\n"; //$value2['list_datetime']
-                    						//20121117
+                               
+                               
+                               
+                               $equid=$value2['equipment_id'];
+                               $usecount=$value2['list_using_number'];
+                               ComputePrice($equid,$usecount,$price);//For cc80
+                               
+                               echo '<td style="text-align: center;">'.$timeformat.$price."</td>\n"; //$value2['list_datetime']
+                    					 //20121117
+                    			
+                    			     //For cc80
+                    			     $paystatus=($value2['ispay']=="0")?"未繳":"已繳";
+                    			     echo '<td style="text-align: center;">'.$paystatus."</td>\n";
+                    			     //For cc80
                     			
                                 //20121110 
                                 /*if($value2['equipment_exclusive']==1){
@@ -3292,15 +3303,26 @@ print $pages_navigation_RecHappy[0];
                     						if(!($db_datetime<$now_datetime+3600)){//用大於if($db_datetime>$now_datetime+3600)
                                   //20121123 塞入起始時間 $value2['list_time'] 然後在onclick檢查
                     						   if($value2['list_disable']!="1"){
+                    						   $today="2014-08-13 00:00:00";
+                    						   echo date("Y-m-d H:i:s", strtotime($today."-2 hour"));
                                    	echo '<td style="text-align: center;"><a href="#" onclick="'."tfm_confirmLink('你確定要取消預約???','reservation_del.php', {'list_id':'".$value2['list_id']."','equipment_id':'".$value2['equipment_id']."','type':'".$type."'})".'" >取消</a>'."</td>\n";
-                    						  }else{
-                                    echo '<td style="text-align: center;">'."取消預約"."&nbsp;</td>\n";
+                    						  }elseif($value2['list_disable']=="1" && is_null($value2['disable_man'])){
+                                    echo '<td style="text-align: center;">'."住戶取消預約"."&nbsp;</td>\n";
+                                  }elseif($value2['list_disable']=="1" && !is_null($value2['disable_man'])){
+                                     echo '<td style="text-align: center;">'."管理著取消預約"."&nbsp;</td>\n";
                                   }
                                 }
                     						else{
-                                  $txt=ShowRunMachine($value2,$type,$equipment_id);
+                                  //$txt=ShowRunMachine($value2,$type,$equipment_id);
+                                  if($value2['list_disable']!="1"){
+                                   	$txt=""; //時間過,但沒去按取消
+                    						  }elseif($value2['list_disable']=="1" && is_null($value2['disable_man'])){
+                                    $txt="住戶取消預約";
+                                  }elseif($value2['list_disable']=="1" && !is_null($value2['disable_man'])){
+                                    $txt="管理著取消預約";
+                                  }
                     							echo '<td style="text-align: center;">'.$txt."&nbsp;</td>\n";
-                    						}
+                                }
                     						//-----------------------------20121114取消機制-----------------------------------------------------------
                     						echo "</tr>\n";
                     					}
@@ -3333,7 +3355,7 @@ print $pages_navigation_RecHappy[0];
 			<form action="equipment_reservation_check.php" method="get" name="form1">
 			  <input type="hidden" name="list_endtime" id="list_endtime" value="00:00:00">
         <input type="hidden" name="list_time_format" id="list_time_format" value="">
-        <input type="hidden" name="equipment_id" id="equipment_id" value="<?php echo $equipment_id;?>">
+        <input type="hidden" name="equipment_id" id="equipment_id" value="<?=$equipment_id?>">
         <input type="hidden" name="equipment_exclusive" id="equipment_exclusive" value="<?php echo $row_Recordset['equipment_exclusive'];?>">
         <input type="hidden" name="m_id" id="m_id" value="<?php echo $_SESSION['MM_UserID'];?>"> 
         <!--input type="hidden" name="equipment_max_people" id="equipment_max_people" value="1"--> 
@@ -3395,6 +3417,11 @@ print $pages_navigation_RecHappy[0];
               </td>
               <td>
                 <div id="show_check_reservation3" ></div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div id="show_price" ></div>
               </td>
             </tr>
 

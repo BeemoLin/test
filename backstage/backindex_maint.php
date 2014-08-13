@@ -255,7 +255,6 @@ switch($action_mode)
 
   // 預設頁面為列表頁
   default:
-    echo $action_mode;
     $action_mode = 'index';
     echo "<script type='text/javascript'>post_to_url('backindex_maint.php', {'action_mode':'index'});</script>";
     break;

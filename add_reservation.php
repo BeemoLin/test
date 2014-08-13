@@ -137,17 +137,43 @@ function check(){
         document.getElementById("set_list_time").value=timeList[0];
         document.getElementById("list_endtime").value= timeList[1];
         document.getElementById("list_time_format").value=timeblock[0];
-    
-      document.form1.submit();
+        document.form1.submit();
     }
     return false;
   }
 	
+
 	function edate_yes(){
+	 //--------FOR CC80每個公設都有各自的準則------------
+	 var equid=document.getElementById("equipment_id").value;
+	 
+	 if(equid=="1000"){
+        var list_date = document.getElementById("list_date").value; 
+        var today = new Date();
+        var today_year = today.getFullYear(); //西元年份
+        var today_month = today.getMonth()+1; //一年中的第幾月
+        var today_date = today.getDate(); //一月份中的第幾天
+        //var today_hours = today.getHours(); //一天中的小時數
+        //var today_minutes = today.getMinutes(); //一天中的分鐘
+        //var today_seconds = today.getSeconds(); //一天中的秒數
+        
+        var CurrentDate = today_year+"/"+today_month+"/"+today_date;//+"  "+today_hours+":"+today_minutes+":"+today_seconds;
+         
+        if((Date.parse(list_date.replace(/-/g, "/"))).valueOf() < (Date.parse(CurrentDate)).valueOf() || (Date.parse(list_date.replace(/-/g, "/"))).valueOf() >(Date.parse(CurrentDate)).valueOf()){
+            alert("限當天登記");
+            return;
+        }/*else{alert("預約日期在指定區間內");}*/
+   }else{
+   
+   }
+   //--------FOR CC80每個公設都有各自的準則------------
+   
 		if(document.getElementById("list_date").value != ""){
 			checkReservation1();
 		}
 	}	
+	
+	
 	function edate_no(){
 		document.getElementById("list_date_yes").disabled=false;
 		document.getElementById("set_list_date").value = "";
@@ -166,6 +192,9 @@ function check(){
 		document.getElementById("list_time_hidden").style.display="none";
 		document.getElementById("max_people_hidden").style.display="none";
 	}
+	
+	
+	//cc80 :有1小時 2小時 4小時
 	
 	function etime_yes(){
 	
@@ -244,6 +273,20 @@ function check(){
   
 	function enumber_cheng(){
     var r2_number = document.getElementById("reservation2_number").value;
+    
+    //cc80要計算價錢
+    var equid = document.getElementById("equipment_id").value;
+    //alert(equid);
+    switch(equid){
+      case "1000":  //艾美健身房
+         var price= parseInt(document.getElementById("equipment_max_people").value,10)*20;
+         document.getElementById("show_price").innerHTML="付費:"+price;
+         break;
+      default:
+           document.getElementById("show_price").innerHTML="";
+    
+    
+    }
     //var emax_people = document.getElementById("equipment_max_people").value;
     //if((equipment_max_people - r2_number - emax_people) > 0){
       //目前
@@ -253,7 +296,9 @@ function check(){
 	}	
 	function show_time(){
 	//當日期點完的時候;會跑來這裡執行
- 
+
+    var equid=document.getElementById("equipment_id").value;
+     
 		var list_time = document.getElementById('list_time'); //取時間元件的ID
 		//list_time.setAttribute("style","visibility: visible");
     //list_time.style.visbility
@@ -309,10 +354,16 @@ function check(){
 		   
       //list_time.onclick= function() { WdatePicker({qsEnabled:false,minDate:'{%H+3}:00:00',maxDate:advance_end,dateFmt:'HH:00:00',disabledDates:['09\:..:\..','11\:..:\..','13\:..:\..','15\:..:\..','17\:..:\..','19\:..:\..','21\:..:\..'],qsEnabled:false}); };
 		  //20121109
-      list_time.onclick= function() { WdatePicker({minDate:nowhour,maxDate:advance_end,dateFmt:'HH:mm:00',disabledDates:['\:05\:','\:10\:','\:15\:','\:20\:','\:25\:','\:35\:','\:40\:','\:45\:','\:50\:','\:55\:']}); };
-    }
-		else
-    {
+    
+     
+     if(equid=="1000"){
+        list_time.onclick= function() { WdatePicker({minDate:nowhour,maxDate:advance_end,dateFmt:'HH:mm:00',disabledDates:['\:05\:','\:10\:','\:15\:','\:20\:','\:25\:','\:30\:','\:35\:','\:40\:','\:45\:','\:50\:','\:55\:']}); };
+   
+     }else{
+        list_time.onclick= function() { WdatePicker({minDate:nowhour,maxDate:advance_end,dateFmt:'HH:mm:00',disabledDates:['\:05\:','\:10\:','\:15\:','\:20\:','\:25\:','\:35\:','\:40\:','\:45\:','\:50\:','\:55\:']}); };
+     }
+      
+    }else{
     <?php
       /*其他日期
       alert("2");
@@ -324,8 +375,12 @@ function check(){
     ?>
       //list_time.onclick= function() { WdatePicker({qsEnabled:false,minDate:advance_start,maxDate:advance_end,dateFmt:'HH:00:00',disabledDates:['09\:..:\..','11\:..:\..','13\:..:\..','15\:..:\..','17\:..:\..','19\:..:\..','21\:..:\..']}); };
 		   //20121109
-      list_time.onclick= function() { WdatePicker({minDate:advance_start,maxDate:advance_end,dateFmt:'HH:mm:00',disabledDates:['\:05\:','\:10\:','\:15\:','\:20\:','\:25\:','\:35\:','\:40\:','\:45\:','\:50\:','\:55\:']}); };
-    }
+		   if(equid=="1000"){
+		      list_time.onclick= function() { WdatePicker({minDate:advance_start,maxDate:advance_end,dateFmt:'HH:mm:00',disabledDates:['\:05\:','\:10\:','\:15\:','\:20\:','\:25\:','\:30\:','\:35\:','\:40\:','\:45\:','\:50\:','\:55\:']}); };
+		   }else{
+          list_time.onclick= function() { WdatePicker({minDate:advance_start,maxDate:advance_end,dateFmt:'HH:mm:00',disabledDates:['\:05\:','\:10\:','\:15\:','\:20\:','\:25\:','\:35\:','\:40\:','\:45\:','\:50\:','\:55\:']}); };
+       }
+      }
 	}
 function seeklistmenu() 
 {

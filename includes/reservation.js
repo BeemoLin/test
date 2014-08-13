@@ -146,7 +146,7 @@ function callback()
          if(usecount!="N"){
               if(usecount!="nouse"){
                   sc_reservation2.innerHTML =ordereddetail+" 可預約";
-                  sc_reservation2.innerHTML =sc_reservation2.innerHTML+";剩餘人數:"+usecount;//20140716 by akai
+                  sc_reservation2.innerHTML =sc_reservation2.innerHTML+";剩餘人數:"+usecount+"(在使用時間結束前5分鐘始得重新登記)";//20140716 by akai
                      //2014/07 By akai for 跑步機人數統計
                       document.getElementById("max_people_hidden").style.display="";
                       document.getElementById("equipment_max_people").style.display="";
@@ -154,15 +154,31 @@ function callback()
                       
                       document.getElementById("equipment_max_people").options.length = 0; //清除;否則會一直往下加
                       
-                      orderpeople=(parseInt(usecount,10)<3)?parseInt(usecount,10):3;
-                      //parseInt(usecount,10) => orderpeople
+                     // orderpeople=(parseInt(usecount,10)<3)?parseInt(usecount,10):3;
+                      orderpeople=(parseInt(usecount,10));
+                       
                       for(i=1;i<=orderpeople;i++){
                         var varItem = new Option(i.toString()+"人", i);   //文字,值   
                         document.getElementById("equipment_max_people").options.add(varItem);   
                       }
-                      
                       document.getElementById("equipment_max_people").value="1";
                       document.getElementById("submit01").style.display="";
+                      var equid = document.getElementById("equipment_id").value;
+                      switch(equid){
+                        case "1000":  //艾美健身房
+                           var price= parseInt(document.getElementById("equipment_max_people").value,10)*20;
+                           document.getElementById("show_price").innerHTML="付費:"+price;
+                           break;
+                        default:
+                             document.getElementById("show_price").innerHTML="";
+                      
+                      
+                      }
+                      
+                      
+                      
+                      
+                      
               }else{
                   sc_reservation2.innerHTML =ordereddetail+" 無法預約";
                   sc_reservation2.innerHTML =sc_reservation2.innerHTML+"(已預約完)";//20140716 by akai
