@@ -22,19 +22,15 @@ require_once(INCLUDES.'/processdbcols.php');
  20121117:增加起迄時間;只要時分(秒不用)
           增加預約結束時間攔位 給insert用
  
- 
- 
- 
- 
- 
+
  */
+ 
+ 
 $logoutAction = 'logout.php';
 $logoutGoTo = 'backindex.php';
 $order_name = 'order';
 $photo_name = 'order_photo';
 $img_dir = 'newpic';
-
-
 
 /*
 20121109修改重要的命令模式判別
@@ -273,8 +269,6 @@ elseif($action_mode=='del_equipment'){
 }
 elseif($action_mode=='view_reservation_data')//查看訂約記錄
 {
-  //20121108 die("測試中");
-  //20121117
 	reservation_show_list($equipment_id,$page);
 	
 }
@@ -459,7 +453,25 @@ elseif($action_mode=='disable_reservation'){
 	$c_equipment = new equipment;
   $c_equipment->setDb('`equipment_reservation_list`');
 	$where_expression = "AND `list_id` = '".$list_id."'";
-	$update_expression = " `list_disable` = '1' ,`save_datetime` = NOW(), `disable_man` = '".$_SESSION['MM_UserID']."'";
+	$update_expression = " `list_disable` = '1' ,`save_datetime` = NOW(), `disable_man` = '".$_SESSION['MM_UserID']."'"; 
+	$c_equipment->update($where_expression,$update_expression); 
+	
+	reservation_show_list($equipment_id,$page);
+}
+elseif($action_mode=='pay'){
+	$c_equipment = new equipment;
+  $c_equipment->setDb('`equipment_reservation_list`');
+	$where_expression = "AND `list_id` = '".$list_id."'";
+	$update_expression = " `ispay` = '1' ,`save_datetime` = NOW()";
+	$c_equipment->update($where_expression,$update_expression); 
+	
+	reservation_show_list($equipment_id,$page);
+}
+elseif($action_mode=='unpay'){
+	$c_equipment = new equipment;
+  $c_equipment->setDb('`equipment_reservation_list`');
+	$where_expression = "AND `list_id` = '".$list_id."'";
+	$update_expression = " `ispay` = '0' ,`save_datetime` = NOW()";
 	$c_equipment->update($where_expression,$update_expression); 
 	
 	reservation_show_list($equipment_id,$page);

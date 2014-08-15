@@ -16,6 +16,12 @@ require_once(PAGECLASS);
 require_once(INCLUDES.'/processdbcols.php');
 $_SESSION['from_web'] = basename($_SERVER[SCRIPT_FILENAME]);
 
+
+define("Gym","1000");
+define("PartyRoom","1003");
+define("HearCenter","1002");
+define("Barbecue","1001");
+
 //取HTML所有物件的內容使用action=get
 if(isset($_GET)){
 	foreach($_GET as $key => $value){
@@ -53,9 +59,9 @@ function select_sql($equipment_picture = NULL){
 			`equipment_reservation`.`equipment_id` ASC
 	";
 }
-function ShowRunMachine($value2,$type,$equipment_id){
+function ShowRunMachine($value2,$type,$equipment_id){ //功能未用
   $showtxt="";
-  if($type=="PART" && $equipment_id=="1000" && $value2['list_disable']=="1"){
+  if($type=="PART" && $equipment_id==Gym && $value2['list_disable']=="1"){
     
      $date= split("-",$value2['list_date']);
      $time= split(":",$value2['list_time']);
@@ -116,6 +122,7 @@ if(isset($equipment_id))
 {
   //echo  "設備名稱:".$equipment_id;
   //die("各項設備名稱");
+  
   //	AND
 	//		`equipment_reservation_list`.`list_disable` = '0'
 	$where = "
@@ -137,7 +144,7 @@ if(isset($equipment_id))
 	//die($select.$from_DB.$where);
   $pages->setDb($from_DB, $where, $select);
   
-  $pages->setPerpage(10,$page);//每頁10筆
+  $pages->setPerpage(4,$page); //10
   
   $pages->set_base_page("reservation_list.php?equipment_id=".$equipment_id);
   
@@ -161,10 +168,10 @@ else
 {
     //echo  "無設備名稱";
  //die("點選已預約清單全撈項目");
+  
+  
    //	AND
 	//		`equipment_reservation_list`.`list_disable` = '0'  LOG 全部show
-	
-	
 	$where = "
 		AND
 			`equipment_reservation_list`.`m_id` = '".$m_id."'
@@ -173,7 +180,7 @@ else
 			`equipment_reservation_list`.`equipment_id`  ASC
 		";
   $pages->setDb($from_DB, $where, $select);
-  $pages->setPerpage(10,$page);
+  $pages->setPerpage(4,$page);//10
    
  // echo "頁數".$page;
   $pages->set_base_page("reservation_list.php");//設定sumbit出去的網頁名稱;再使用?參數=....
@@ -189,8 +196,15 @@ else
 
 function ComputePrice($equid,$usecount,&$price){//For CC80               
     switch($equid){
-      case "1000":
+      case Gym:
         $price="付費".(int)$usecount*20;
+        break;
+    case PartyRoom:
+    case HearCenter:
+        $price="付費".(int)$usecount*100;
+        break;
+    case Barbecue:
+       $price="付費".(int)$usecount*300;
         break;
     default:
        $price="";              

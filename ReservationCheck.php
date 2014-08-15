@@ -6,17 +6,25 @@ $xml = true;
 require_once('define.php');
 require_once(CONNSQL);
 require_once(PAGECLASS);
+
 define("Gym","1000");
+define("PartyRoom","1003");
+define("HearCenter","1002");
+define("Barbecue","1001");
+
 define("HearRoom","10");
  
 echo '<?xml version="1.0" encoding="UTF-8"?>'; 
 echo "<response>"; 
 
-function CheckUseCount($equipmentid,$listdate){
+/*function CheckUseCount($equipmentid,$listdate){
   //跑步機.....,非專屬預約的公設
   $count="N";//給空值;reservation.js取值會有問題;給N,不屬於跑步機
-  if($equipmentid==Gym){
-     $sql = "SELECT `equipment_max_people` as max,`equipment_id`
+  switch($equipmentid){
+    case Gym:
+    case PartyRoom:
+    case HearCenter:
+      $sql = "SELECT `equipment_max_people` as max,`equipment_id`
               FROM `equipment_reservation`
               WHERE 1
               AND `equipment_id` = '".$equipmentid."'";
@@ -38,9 +46,15 @@ function CheckUseCount($equipmentid,$listdate){
 		  
       $count=$maxpeople-$usingpeople;
 		  $count=($count<1)?"nouse":$count;
+    
+    break;
+  
+  
   }
+  
+  
   return $count;
-}
+}*/
 
 
 function GetEquCount($equipmentid){
@@ -54,7 +68,7 @@ function GetEquCount($equipmentid){
     return $maxpeople;
 }
 
-function CheckEquRunMachine($returnData,$equipment_id,$equipment_endtimemin,$list_startmin,$list_endmin,&$ordered,&$usecount){
+function StaticListEquCount($returnData,$equipment_id,$equipment_endtimemin,$list_startmin,$list_endmin,&$ordered,&$usecount){
     
     $equpeople=(int)GetEquCount($equipment_id);
     $list_endmin=($list_endmin>=$equipment_endtimemin)?$equipment_endtimemin: $list_endmin;
@@ -186,13 +200,18 @@ function EquUseMin($equipment_id,&$matchmin){
             $matchmin=180;
             break;
           case Gym:
+          case PartyRoom:
+          case HearCenter:
             $matchmin=60;
+            break;
+          case Barbecue:
+            $matchmin=240;
             break;
           default:
             $matchmin=120;
         }
 }
-function SeekListRecord($equipment_id,$list_time,$processTime,&$sql){
+function SeekListRecord($equipment_id,$list_date,$list_time,$processTime,&$sql){
     /*-----------------------艾美健身房1小時------------------------------------*/
     /*-----------------------奧斯卡視聽室要3小時--------------------------------*/
     /*-----------------------其他2小時------------------------------------------*/
@@ -232,6 +251,8 @@ function SeekListRecord($equipment_id,$list_time,$processTime,&$sql){
       break;
       
       case Gym:
+      case PartyRoom:
+      case HearCenter:
         $timeblock[0]=$list_time;
 		  $sql = "
   			SELECT *
@@ -243,6 +264,33 @@ function SeekListRecord($equipment_id,$list_time,$processTime,&$sql){
           ORDER BY list_time ASC
 		  ";
       break;
+      
+      case Barbecue:
+          $timeblock[0]=TimeToHourMinSec(TimetoMin($processTime[0],$processTime[1],"-","60"));
+       
+          $timeblock[1]=TimeToHourMinSec(TimetoMin($processTime[0],$processTime[1],"-","120"));
+          
+          $timeblock[2]=TimeToHourMinSec(TimetoMin($processTime[0],$processTime[1],"-","180"));
+          
+          $timeblock[3]=$list_time;
+          
+          $timeblock[4]=TimeToHourMinSec(TimetoMin($processTime[0],$processTime[1],"+","60"));
+          
+          $timeblock[5]=TimeToHourMinSec(TimetoMin($processTime[0],$processTime[1],"+","120"));
+          
+          $timeblock[6]=TimeToHourMinSec(TimetoMin($processTime[0],$processTime[1],"+","180"));
+          
+  		  $sql = "
+    			SELECT *
+    			FROM `equipment_reservation_list` 
+    			WHERE `list_disable` = '0'
+            AND `equipment_id` = '".$equipment_id."' 
+            AND `list_date` = '".$list_date."' 
+            AND (`list_time` = '".$timeblock[0]."' OR `list_time` = '".$timeblock[1]."' OR `list_time` = '".$timeblock[2]."' OR `list_time` = '".$timeblock[3]."' OR `list_time` = '".$timeblock[4]."' OR `list_time` = '".$timeblock[5]."' OR `list_time` = '".$timeblock[6]."')                                 
+            ORDER BY list_time ASC
+  		  ";
+  		  break;
+      
       
       default:
          $timeblock[0]=TimeToHourMinSec(TimetoMin($processTime[0],$processTime[1],"-","30"));
@@ -346,7 +394,7 @@ if(isset($equipment_id) && isset($m_id)){
   
     $processTime= split(":", $list_time); //訂票時間
     
-    SeekListRecord($equipment_id,$list_time,$processTime,$sql);
+    SeekListRecord($equipment_id,$list_date,$list_time,$processTime,$sql);
     
 		$returnData = mysql_query($sql);  
 	  // $data = mysql_fetch_assoc($returnData);	//return Arrary;index with string not int
@@ -357,12 +405,23 @@ if(isset($equipment_id) && isset($m_id)){
         
         //$ordered=$list_startmin."~".$list_endmin."@@".$matchmin;
     
-  
-    if($equipment_id==Gym){      //非專屬預約:人數統計
-      CheckEquRunMachine($returnData,$equipment_id,$equipment_endtimemin,$list_startmin,$list_endmin,$ordered,$usecount);
-    }else{                          //專屬預約:判斷區間是否重疊
-      CheckOtherEqu($returnData,$equipment_endtimemin,$list_startmin,$list_endmin,$ordered,$usecount);
+    
+    switch($equipment_id){
+      case Gym:
+      case PartyRoom:
+      case HearCenter:
+      case Barbecue:
+        //非專屬預約:人數統計
+         StaticListEquCount($returnData,$equipment_id,$equipment_endtimemin,$list_startmin,$list_endmin,$ordered,$usecount);
+      break;
+      
+      default:
+        //專屬預約:判斷區間是否重疊
+        CheckOtherEqu($returnData,$equipment_endtimemin,$list_startmin,$list_endmin,$ordered,$usecount);
     }
+                        
+     
+    
     
 
     echo '<ordered>'.$ordered.'</ordered>';

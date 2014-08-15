@@ -1,3 +1,39 @@
+<?php 
+define("Gym","1000");
+define("PartyRoom","1003");
+define("HearCenter","1002");
+define("Barbecue","1001");
+function GetEquMoney($equid,&$money){
+     switch($equid){
+          case Gym:
+            $money=20;
+            break;
+          case PartyRoom:
+          case HearCenter:
+            $money=100;
+            break;
+          case Barbecue:
+            $money=300;
+            break;
+          default:
+            $money=0;
+        }
+}
+function GetUnit($equid,&$unit){
+     switch($equid){
+          case Barbecue:
+            $unit="爐";
+            break;
+          case Gym:
+          case PartyRoom:
+          case HearCenter:
+          default:
+            $unit="人";
+        }
+}
+GetEquMoney($equipment_id,&$money);
+GetUnit($equipment_id,&$unit);
+?>
 <script type="text/javascript">
 <!--
 function tfm_confirmLink(message, path, params, method) { //v1.0
@@ -23,7 +59,8 @@ function tfm_confirmLink(message, path, params, method) { //v1.0
 					<th scope="col">存檔時間</th>
 					<th scope="col">預約數</th>
 					<th scope="col">累計數</th>
-					<th scope="col">備註</th>
+          <th scope="col">備註</th>
+          <th scope="col">付費狀況</th>
 					<th scope="col">取消預約</th>
 				<?php if($_SESSION['MM_UserGroup']=='權限管理者'){?>
 					<th scope="col">刪除</th>
@@ -82,58 +119,68 @@ function tfm_confirmLink(message, path, params, method) { //v1.0
             }
             else //非專屬預約
             {
-            	echo '<td style="text-align: center;">'.$value2['list_using_number']."人</td>\n";
-              if(isset($value2['count_number']))
-              {
-                if($value2['sum_number']>$equipment_max_people)
-                {
-                  echo '<td style="text-align: center;" rowspan="'.$value2['count_number'].'"><span style="color: red;">'.$value2['sum_number']."人</span></td>\n";
+            	echo '<td style="text-align: center;">'.$value2['list_using_number'].$unit."</td>\n";
+              
+              //調整ROWSPAN
+              if(isset($value2['count_number'])){
+                if($value2['sum_number']>$equipment_max_people){  
+                  $rownum=$value2['count_number'];
+                  echo '<td style="text-align: center;" rowspan="'.$rownum.'"><span style="color: red;">'.$value2['sum_number'].$unit."</span></td>\n";
+                  $rownum-=1;
                 }
-                else
-                {
-                  echo '<td style="text-align: center;" rowspan="'.$value2['count_number'].'">'.$value2['sum_number']."人</td>\n";
+                else{
+                  $sumnum=($value2['sum_number']=="")?"0":$value2['sum_number'];
+                  $rownum=($value2['count_number']=="0" || $value2['count_number']=="")?"1":$value2['count_number'];
+                  echo '<td style="text-align: center;" rowspan="'.$rownum.'">'.$sumnum.$unit."</td>\n";
+                  $rownum-=1;
                 }
               }
-              elseif($value2['count_number']==1)
-              {
+              elseif($value2['count_number']==1){
                 echo "<td></td>";
+              }else{
+                   $coltxt=($rownum>0)?"":"<td></td>";
+                   echo $coltxt;
+                   $rownum-=1;
               }
+              //調整ROWSPAN
             }
-            
+           
 
 
             
 						echo '<td style="text-align: center;"><a href="#" class="btn btn-default" onclick="'."post_to_url('backindex_equipment.php', {'action_mode':'set_reservation','list_id':'".$value2['list_id']."','equipment_id':'".$equipment_id."'})".'" >備註</a>'."</td>\n";
-            //if($db_datetime<$now_datetime)
-            if($equipment_id == 1000)
+            
+            $showm=$money*(int)$value2['list_using_number'];
+            $showm=($showm>0)?$showm:"";
+            
+            if($value2['ispay']==0)
             {
-              if(strtotime($value2['list_date']." ".$value2['list_endtime'])<$now_datetime)
-              {
-                echo '<td style="text-align: center;">'."&nbsp;</td>\n";
-              }
-              else if($value2['list_disable']=='1')
-              {
-                echo '<td style="text-align: center;">'."已取消預約&nbsp;</td>\n";
-              }
-              else
-              {
-                echo '<td style="text-align: center;"><a href="#" onclick="'."tfm_confirmLink('你確定要取消預約???','backindex_equipment.php', {'action_mode':'disable_reservation','list_id':'".$value2['list_id']."','equipment_id':'".$equipment_id."'})".'" >取消</a>'."</td>\n";
-              }
+            
+              echo '<td style="text-align: center;"><a href="#" class="btn btn-danger" onclick="'."post_to_url('backindex_equipment.php', {'action_mode':'pay','list_id':'".$value2['list_id']."','equipment_id':'".$equipment_id."'})".'" >未付費'.$showm.'</a>'."</td>\n";
             }
             else
             {
-              if(!($db_datetime<$now_datetime)){
-                echo '<td style="text-align: center;"><a href="#" onclick="'."tfm_confirmLink('你確定要取消預約???','backindex_equipment.php', {'action_mode':'disable_reservation','list_id':'".$value2['list_id']."','equipment_id':'".$equipment_id."'})".'" >取消</a>'."</td>\n";
-              }
-              else if($value2['list_disable']=='1')
-              {
-                echo '<td style="text-align: center;">'."已取消預約&nbsp;</td>\n";
-              }
-              else
-              {
-                echo '<td style="text-align: center;">'."&nbsp;</td>\n";
-              }
+              echo '<td style="text-align: center;"><a href="#" class="btn btn-success" onclick="'."post_to_url('backindex_equipment.php', {'action_mode':'unpay','list_id':'".$value2['list_id']."','equipment_id':'".$equipment_id."'})".'" >已付費'.$showm.'</a>'."</td>\n";
             }
+
+             $canceltxt="";
+             if(!($db_datetime<$now_datetime)){
+                
+                 if($value2['list_disable']=='1'){
+                      $canceltxt=($value2['disable_man']!=null)?'<td style="text-align: center;">'."管理者取消預約&nbsp;</td>\n":'<td style="text-align: center;">'."住戶取消預約&nbsp;</td>\n";
+                 }else{
+                    $canceltxt='<td style="text-align: center;"><a href="#" onclick="'."tfm_confirmLink('你確定要取消預約???','backindex_equipment.php', {'action_mode':'disable_reservation','list_id':'".$value2['list_id']."','equipment_id':'".$equipment_id."'})".'" >取消</a>'."</td>\n";
+                 }
+                 
+              }else{
+                     if($value2['list_disable']=='1'){
+                          $canceltxt=($value2['disable_man']!=null)?'<td style="text-align: center;">'."管理者取消預約&nbsp;</td>\n":'<td style="text-align: center;">'."住戶取消預約&nbsp;</td>\n";
+                      }else{
+                        $canceltxt='<td style="text-align: center;">'."&nbsp;</td>\n";
+                      }
+              }
+              echo $canceltxt;
+            
 						if($_SESSION['MM_UserGroup']=='權限管理者'){
 							echo '<td style="text-align: center;"><a href="#" onclick="'."tfm_confirmLink('你確定要刪除預約???','backindex_equipment.php', {'action_mode':'del_reservation','list_id':'".$value2['list_id']."','equipment_id':'".$equipment_id."'})".'">刪除</a>'."</td>\n";
 						}

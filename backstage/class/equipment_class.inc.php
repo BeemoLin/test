@@ -98,7 +98,7 @@ class equipment extends data_function{
 		';
 		$this->setDb($from_DB);
 		$select_expression = "*";
-		$where_expression = "AND `list_disable` != '' AND `equipment_reservation_list`.`equipment_id` = '".$this->equipment_id."' AND `equipment_reservation_list`.`list_datetime` = '".$this->list_datetime."' ORDER BY `list_datetime` DESC, `save_datetime` ASC";
+		$where_expression = "AND `list_disable` != '' AND `equipment_reservation_list`.`equipment_id` = '".$this->equipment_id."' AND `equipment_reservation_list`.`list_datetime` = '".$this->list_datetime."' ORDER BY `list_datetime` DESC, `list_disable` ASC";
 
 		$e_datetime_data = $this->select($where_expression, $select_expression);
 		return $e_datetime_data;
@@ -193,7 +193,7 @@ class equipment extends data_function{
   }
 	
   function e_set_sql(){
-		$where_expression = "AND `list_disable` != '' AND `equipment_reservation_list`.`equipment_id` = '".$this->equipment_id."' GROUP BY `equipment_reservation_list`.`list_datetime` ORDER BY `list_datetime` DESC, `save_datetime` ASC";
+		$where_expression = "AND `list_disable` != '' AND `equipment_reservation_list`.`equipment_id` = '".$this->equipment_id."' GROUP BY `equipment_reservation_list`.`list_datetime` ORDER BY `list_datetime` DESC,`save_datetime` ASC ";
 		$this->count = "SELECT count(1) FROM ".$this->dbname." where 1 = 1 ".$where_expression." ";
 		$this->ccount = "SELECT count(1) FROM (SELECT count(1) FROM ".$this->dbname." where 1 = 1 ".$where_expression.") as `tab` ";
 		$this->sql = "SELECT * FROM ".$this->dbname." where 1 = 1 ".$where_expression." ";

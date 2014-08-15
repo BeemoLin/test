@@ -4,6 +4,11 @@
 var xmlHttp; 
 var chk
 
+const PartyRoom="1003";
+const Gym="1000";
+const HearCenter="1002";
+const Barbecue="1001";
+
 function createXMLHttpRequest() { 
   if (window.ActiveXObject) { // IE 
     xmlHttp = new ActiveXObject("Microsoft.XMLHTTP"); 
@@ -145,8 +150,24 @@ function callback()
       {
          if(usecount!="N"){
               if(usecount!="nouse"){
+              
+                var equid = document.getElementById("equipment_id").value;
+                      var unit="";
+                      switch(equid){
+                         case Gym:  
+                         case PartyRoom:
+                         case HearCenter:
+                          
+                          unit="人";
+                          break;
+                          
+                        case Barbecue:
+                          unit="爐";
+                          break;
+                      }
+              
                   sc_reservation2.innerHTML =ordereddetail+" 可預約";
-                  sc_reservation2.innerHTML =sc_reservation2.innerHTML+";剩餘人數:"+usecount+"(在使用時間結束前5分鐘始得重新登記)";//20140716 by akai
+                  sc_reservation2.innerHTML =sc_reservation2.innerHTML+";剩餘"+unit+"數:"+usecount+"(在使用時間結束前5分鐘始得重新登記)";//20140716 by akai
                      //2014/07 By akai for 跑步機人數統計
                       document.getElementById("max_people_hidden").style.display="";
                       document.getElementById("equipment_max_people").style.display="";
@@ -156,29 +177,34 @@ function callback()
                       
                      // orderpeople=(parseInt(usecount,10)<3)?parseInt(usecount,10):3;
                       orderpeople=(parseInt(usecount,10));
+                      
+                    
                        
                       for(i=1;i<=orderpeople;i++){
-                        var varItem = new Option(i.toString()+"人", i);   //文字,值   
+                        var varItem = new Option(i.toString()+unit, i);   //文字,值    
                         document.getElementById("equipment_max_people").options.add(varItem);   
                       }
                       document.getElementById("equipment_max_people").value="1";
                       document.getElementById("submit01").style.display="";
-                      var equid = document.getElementById("equipment_id").value;
+                      
                       switch(equid){
-                        case "1000":  //艾美健身房
+                        case Gym:  //艾美健身房
                            var price= parseInt(document.getElementById("equipment_max_people").value,10)*20;
+                           document.getElementById("show_price").innerHTML="付費:"+price;
+                           break;
+                        case PartyRoom:
+                        case HearCenter:
+                           var price= parseInt(document.getElementById("equipment_max_people").value,10)*100;
+                           document.getElementById("show_price").innerHTML="付費:"+price;
+                           break;
+                        case Barbecue:
+                           var price= parseInt(document.getElementById("equipment_max_people").value,10)*300;
                            document.getElementById("show_price").innerHTML="付費:"+price;
                            break;
                         default:
                              document.getElementById("show_price").innerHTML="";
                       
-                      
                       }
-                      
-                      
-                      
-                      
-                      
               }else{
                   sc_reservation2.innerHTML =ordereddetail+" 無法預約";
                   sc_reservation2.innerHTML =sc_reservation2.innerHTML+"(已預約完)";//20140716 by akai

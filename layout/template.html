@@ -3300,29 +3300,31 @@ print $pages_navigation_RecHappy[0];
                                //20121122
                                 
                                 //ex:預約10點 所以8點59分59秒還可以取消;一到9點就無法取消
+                                $canceltxt="";
                     						if(!($db_datetime<$now_datetime+3600)){//用大於if($db_datetime>$now_datetime+3600)
                                   //20121123 塞入起始時間 $value2['list_time'] 然後在onclick檢查
                     						   if($value2['list_disable']!="1"){
                                     $listtime=$value2['list_date']." ".$value2['list_time'];//  "2014-08-13 00:00:00";
-                                    $canecl= date("Y-m-d H:i", strtotime($listtime."-1 hour"))."前可取消";
-                                   	echo '<td style="text-align: center;"><a href="#" onclick="'."tfm_confirmLink('你確定要取消預約???','reservation_del.php', {'list_id':'".$value2['list_id']."','equipment_id':'".$value2['equipment_id']."','type':'".$type."'})".'" >'.$canecl.'</a>'."</td>\n";
+                                    $cancel= date("Y-m-d H:i", strtotime($listtime."-1 hour"))."前可取消";
+                                   	$canceltxt= '<td style="text-align: center;"><a href="#" onclick="'."tfm_confirmLink('你確定要取消預約???','reservation_del.php', {'list_id':'".$value2['list_id']."','equipment_id':'".$value2['equipment_id']."','type':'".$type."'})".'" >'.$cancel.'</a>'."</td>\n";
                     						  }elseif($value2['list_disable']=="1" && is_null($value2['disable_man'])){
-                                    echo '<td style="text-align: center;">'."住戶取消預約"."&nbsp;</td>\n";
+                                    $canceltxt= '<td style="text-align: center;">'."住戶取消預約"."&nbsp;</td>\n";
                                   }elseif($value2['list_disable']=="1" && !is_null($value2['disable_man'])){
-                                     echo '<td style="text-align: center;">'."管理著取消預約"."&nbsp;</td>\n";
+                                     $canceltxt= '<td style="text-align: center;">'."管理著取消預約"."&nbsp;</td>\n";
                                   }
                                 }
                     						else{
                                   //$txt=ShowRunMachine($value2,$type,$equipment_id);
                                   if($value2['list_disable']!="1"){
-                                   	$txt=""; //時間過,但沒去按取消
+                                   	$canceltxt='<td style="text-align: center;">'.""."&nbsp;</td>\n"; //時間過,但沒去按取消
                     						  }elseif($value2['list_disable']=="1" && is_null($value2['disable_man'])){
-                                    $txt="住戶取消預約";
+                                    $canceltxt='<td style="text-align: center;">'."住戶取消預約"."&nbsp;</td>\n";
                                   }elseif($value2['list_disable']=="1" && !is_null($value2['disable_man'])){
-                                    $txt="管理著取消預約";
+                                    $canceltxt='<td style="text-align: center;">'."管理著取消預約"."&nbsp;</td>\n";
                                   }
-                    							echo '<td style="text-align: center;">'.$txt."&nbsp;</td>\n";
+                    						//	echo '<td style="text-align: center;">'.$txt."&nbsp;</td>\n";
                                 }
+                                echo $canceltxt;
                     						//-----------------------------20121114取消機制-----------------------------------------------------------
                     						echo "</tr>\n";
                     					}

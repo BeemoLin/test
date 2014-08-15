@@ -11,6 +11,31 @@ require_once(PAGECLASS);
 $_SESSION['from_web'] = basename($_SERVER[SCRIPT_FILENAME]);
 $logoutAction = 'logout.php';
 
+
+
+define("Gym","1000");
+define("PartyRoom","1003");
+define("HearCenter","1002");
+define("Barbecue","1001");
+function GetUnit($equid){
+  switch($equid){
+  
+    case Barbecue:
+      $unit="使用爐數";
+      break;
+    case Gym:  
+    case PartyRoom:
+    case HearCenter:
+    default:              
+      $unit="使用人數";
+      break;
+  }
+
+  return $unit;
+
+}
+
+
 if (isset($_GET['equipment_id'])) {
   $equipment_id = $_GET['equipment_id'];
 }
@@ -35,6 +60,9 @@ $end_hour=$processTime[0];
 $endTime=$processTime[0]-1;
 $strendTime=($endTime<10)?"0".(string)$endTime.":00:00":(string)$endTime.":00:00";
 
+$unitTitle=GetUnit($equipment_id);
+
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -49,6 +77,12 @@ var advance_start = '<?php echo $row_Recordset['advance_start'];?>';
 var advance_end = '<?php echo $strendTime;?>';
 var equipment_max_people = '<?php echo $row_Recordset['equipment_max_people'];?>';
 var end_hour='<?php echo $end_hour;?>';
+
+
+const PartyRoom="1003";
+const Gym="1000";
+const HearCenter="1002";
+const Barbecue="1001";
 
 function MM_swapImgRestore() { //v3.0
   var i,x,a=document.MM_sr; for(i=0;a&&i<a.length&&(x=a[i])&&x.oSrc;i++) x.src=x.oSrc;
@@ -144,10 +178,10 @@ function check(){
 	
 
 	function edate_yes(){
-	 //--------FOR CC80每個公設都有各自的準則------------
-	 var equid=document.getElementById("equipment_id").value;
-	 
-	 if(equid=="1000"){
+	    //--------FOR CC80每個公設都有各自的準則------------	
+	  var equid=document.getElementById("equipment_id").value;
+    switch(equid){
+	   case Gym:
         var list_date = document.getElementById("list_date").value; 
         var today = new Date();
         var today_year = today.getFullYear(); //西元年份
@@ -161,19 +195,30 @@ function check(){
          
         if((Date.parse(list_date.replace(/-/g, "/"))).valueOf() < (Date.parse(CurrentDate)).valueOf() || (Date.parse(list_date.replace(/-/g, "/"))).valueOf() >(Date.parse(CurrentDate)).valueOf()){
             alert("限當天登記");
+            document.getElementById("list_date").value="";
             return;
         }/*else{alert("預約日期在指定區間內");}*/
-   }else{
-   
-   }
+        break;
+      case PartyRoom:
+      case Barbecue:
+      
+        break;
+      case HearCenter:
+        var list_date = document.getElementById("list_date").value; 
+        
+        var datelist = list_date.split("-");   
+        var newdt = new Date(Number(datelist[0]),Number(datelist[1])-1,Number(datelist[2])+1);   
+        repnewdt = newdt.getFullYear() + "-" + (newdt.getMonth()+1) + "-" + newdt.getDate();   
+        
+        document.getElementById("list_date").value =repnewdt;
+        
+        break;
+   } 
    //--------FOR CC80每個公設都有各自的準則------------
-   
 		if(document.getElementById("list_date").value != ""){
 			checkReservation1();
 		}
 	}	
-	
-	
 	function edate_no(){
 		document.getElementById("list_date_yes").disabled=false;
 		document.getElementById("set_list_date").value = "";
@@ -278,10 +323,21 @@ function check(){
     var equid = document.getElementById("equipment_id").value;
     //alert(equid);
     switch(equid){
-      case "1000":  //艾美健身房
+      case Gym:  //艾美健身房
          var price= parseInt(document.getElementById("equipment_max_people").value,10)*20;
          document.getElementById("show_price").innerHTML="付費:"+price;
          break;
+      case PartyRoom:  
+      case HearCenter:
+         var price= parseInt(document.getElementById("equipment_max_people").value,10)*100;
+         document.getElementById("show_price").innerHTML="付費:"+price;
+         break;
+         
+      case Barbecue:
+         var price= parseInt(document.getElementById("equipment_max_people").value,10)*300;
+         document.getElementById("show_price").innerHTML="付費:"+price;
+         break;
+      
       default:
            document.getElementById("show_price").innerHTML="";
     
@@ -298,12 +354,14 @@ function check(){
 	//當日期點完的時候;會跑來這裡執行
 
     var equid=document.getElementById("equipment_id").value;
-     
-		var list_time = document.getElementById('list_time'); //取時間元件的ID
+    
+    var list_date_value = document.getElementById('list_date').value;
+		
+    var list_time = document.getElementById('list_time'); //取時間元件的ID
 		//list_time.setAttribute("style","visibility: visible");
     //list_time.style.visbility
-		var list_date_value = document.getElementById('list_date').value;
-		now = new Date();
+
+    now = new Date();
 		year = now.getUTCFullYear();
 		
 		if((now.getMonth()+1)<10){
@@ -355,13 +413,20 @@ function check(){
       //list_time.onclick= function() { WdatePicker({qsEnabled:false,minDate:'{%H+3}:00:00',maxDate:advance_end,dateFmt:'HH:00:00',disabledDates:['09\:..:\..','11\:..:\..','13\:..:\..','15\:..:\..','17\:..:\..','19\:..:\..','21\:..:\..'],qsEnabled:false}); };
 		  //20121109
     
-     
-     if(equid=="1000"){
-        list_time.onclick= function() { WdatePicker({minDate:nowhour,maxDate:advance_end,dateFmt:'HH:mm:00',disabledDates:['\:05\:','\:10\:','\:15\:','\:20\:','\:25\:','\:30\:','\:35\:','\:40\:','\:45\:','\:50\:','\:55\:']}); };
+     switch(equid){
+      case Gym:
+      case PartyRoom:
+      case Barbecue:
+          list_time.onclick= function() { WdatePicker({minDate:nowhour,maxDate:advance_end,dateFmt:'HH:mm:00',disabledDates:['\:05\:','\:10\:','\:15\:','\:20\:','\:25\:','\:30\:','\:35\:','\:40\:','\:45\:','\:50\:','\:55\:']}); };
    
-     }else{
-        list_time.onclick= function() { WdatePicker({minDate:nowhour,maxDate:advance_end,dateFmt:'HH:mm:00',disabledDates:['\:05\:','\:10\:','\:15\:','\:20\:','\:25\:','\:35\:','\:40\:','\:45\:','\:50\:','\:55\:']}); };
+        break;
+      case HearCenter:
+          list_time.onclick= function() { WdatePicker({minDate:advance_start,maxDate:advance_end,dateFmt:'HH:00:00',disabledDates:['\:05\:','\:10\:','\:15\:','\:20\:','\:25\:','\:30\:','\:35\:','\:40\:','\:45\:','\:50\:','\:55\:']}); };
+  	     break;
+      default:
+          list_time.onclick= function() { WdatePicker({minDate:nowhour,maxDate:advance_end,dateFmt:'HH:mm:00',disabledDates:['\:05\:','\:10\:','\:15\:','\:20\:','\:25\:','\:35\:','\:40\:','\:45\:','\:50\:','\:55\:']}); };
      }
+    
       
     }else{
     <?php
@@ -375,11 +440,23 @@ function check(){
     ?>
       //list_time.onclick= function() { WdatePicker({qsEnabled:false,minDate:advance_start,maxDate:advance_end,dateFmt:'HH:00:00',disabledDates:['09\:..:\..','11\:..:\..','13\:..:\..','15\:..:\..','17\:..:\..','19\:..:\..','21\:..:\..']}); };
 		   //20121109
-		   if(equid=="1000"){
-		      list_time.onclick= function() { WdatePicker({minDate:advance_start,maxDate:advance_end,dateFmt:'HH:mm:00',disabledDates:['\:05\:','\:10\:','\:15\:','\:20\:','\:25\:','\:30\:','\:35\:','\:40\:','\:45\:','\:50\:','\:55\:']}); };
-		   }else{
-          list_time.onclick= function() { WdatePicker({minDate:advance_start,maxDate:advance_end,dateFmt:'HH:mm:00',disabledDates:['\:05\:','\:10\:','\:15\:','\:20\:','\:25\:','\:35\:','\:40\:','\:45\:','\:50\:','\:55\:']}); };
-       }
+  		  switch(equid){
+          case Gym:
+          case PartyRoom:
+          case HearCenter:
+          case Barbecue:
+            list_time.onclick= function() { WdatePicker({minDate:advance_start,maxDate:advance_end,dateFmt:'HH:mm:00',disabledDates:['\:05\:','\:10\:','\:15\:','\:20\:','\:25\:','\:30\:','\:35\:','\:40\:','\:45\:','\:50\:','\:55\:']}); };
+  	
+        
+            break;
+        
+          default:
+        
+            list_time.onclick= function() { WdatePicker({minDate:advance_start,maxDate:advance_end,dateFmt:'HH:mm:00',disabledDates:['\:05\:','\:10\:','\:15\:','\:20\:','\:25\:','\:35\:','\:40\:','\:45\:','\:50\:','\:55\:']}); };
+     
+        
+        }
+       
       }
 	}
 function seeklistmenu() 
@@ -456,28 +533,19 @@ function seeklistmenu()
         //window.remoteWindow.outerWidth=screen.availWidth;
         //window.remoteWindow.outerHeight=screen.availHeight;
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
   window.remoteWindow.window.focus();
   
 //window.open("http://把你想要彈出的﹝網頁；網站；圖片；文件；各類型檔案﹞的網址寫在這裡","show","toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,resizable=no,fullscreen=no,height=300,width=350,top=100,left=20");
 }
   
-  
-  
-  
-  
-  
-  
+
 //-->
 </script>
+
+
+
+
+
 <link href="CSS/link.css" rel="stylesheet" type="text/css" />
 <link href="CSS/define.css" rel="stylesheet" type="text/css" />
 </head>
