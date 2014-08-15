@@ -384,7 +384,7 @@ switch($action_mode){
     //撈出未驗證的;現在是全撈
     ViewEquLog($maint_id,$page,$equname,$coname,$Firstpage,$Listpage,$Endpage,$maintData);
   
-    $main_name="驗收設備保養";
+    $main_name="未驗收設備";
     include(VIEW.'/maintlog/index.php');
     break;
   case "checkmaint": //與backindex_mail.php action_mode=give_data比對
@@ -423,7 +423,7 @@ switch($action_mode){
     break;  
   case "checkequyes":
      ViewCheckLog($page,$equname,$coname,$maint_id,$keyword,$data,$Firstpage,$Listpage,$Endpage);
-     $main_name = '查詢設備驗收';
+     $main_name = '已驗收設備';
       include(VIEW.'/maintlog/checkequyes.php');
     break;
   case "finish_check":////與backindex_mail.php action_mode=fix比對

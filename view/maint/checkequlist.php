@@ -10,7 +10,7 @@
                     									<thead>
                     										<tr>
                     											<th scope="col" style="width:150px;">預約設備</th>
-                    											<th scope="col" style="width:150px;">保養日期</th>
+                    											<th scope="col" style="width:150px;">驗收日期</th>
                     											<th scope="col" style="width:250px;">備註</th>
                     										</tr>
                     									</thead>
@@ -22,7 +22,7 @@
                     					foreach($data as $key => $value){
                     					$color=CrossRowColor($no);
                     					//$yesno=((int)$value['check_state']>0)?"是":"否";
-                    					$maintdate=split(" ",$value['maint_time']);
+                    					$maintdate=split(" ",$value['check_time']);
                              	  echo "<tr bgcolor=".$color.">"."\n";?>
                     						
                     
