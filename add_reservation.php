@@ -11,8 +11,6 @@ require_once(PAGECLASS);
 $_SESSION['from_web'] = basename($_SERVER[SCRIPT_FILENAME]);
 $logoutAction = 'logout.php';
 
-
-
 define("Gym","1000");
 define("PartyRoom","1003");
 define("HearCenter","1002");
@@ -61,7 +59,7 @@ $endTime=$processTime[0]-1;
 $strendTime=($endTime<10)?"0".(string)$endTime.":00:00":(string)$endTime.":00:00";
 
 $unitTitle=GetUnit($equipment_id);
-
+ 
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -78,11 +76,12 @@ var advance_end = '<?php echo $strendTime;?>';
 var equipment_max_people = '<?php echo $row_Recordset['equipment_max_people'];?>';
 var end_hour='<?php echo $end_hour;?>';
 
+var PartyRooms='1003';
+var Gyms='1000';
+var HearCenters='1002';
+var Barbecues='1001';
 
-const PartyRoom="1003";
-const Gym="1000";
-const HearCenter="1002";
-const Barbecue="1001";
+
 
 function MM_swapImgRestore() { //v3.0
   var i,x,a=document.MM_sr; for(i=0;a&&i<a.length&&(x=a[i])&&x.oSrc;i++) x.src=x.oSrc;
@@ -179,9 +178,10 @@ function check(){
 
 	function edate_yes(){
 	    //--------FOR CC80每個公設都有各自的準則------------	
+	   
 	  var equid=document.getElementById("equipment_id").value;
     switch(equid){
-	   case Gym:
+	   case Gyms:
         var list_date = document.getElementById("list_date").value; 
         var today = new Date();
         var today_year = today.getFullYear(); //西元年份
@@ -197,13 +197,13 @@ function check(){
             alert("限當天登記");
             document.getElementById("list_date").value="";
             return;
-        }/*else{alert("預約日期在指定區間內");}*/
+        }//else{alert("預約日期在指定區間內");}
         break;
-      case PartyRoom:
-      case Barbecue:
+      case PartyRooms:
+      case Barbecues:
       
         break;
-      case HearCenter:
+      case HearCenters:
         var list_date = document.getElementById("list_date").value; 
         
         var datelist = list_date.split("-");   
@@ -276,7 +276,7 @@ function check(){
         document.getElementById("list_time_hidden").style.display="";
        // document.getElementById("submit01").style.display=""; 放到reservation.js
         document.getElementById("equipment_exclusive").value="1";//20121110  0 或1都設成1 動javascript不動php怕影響其他的程式
-        //alert('TEST');
+        
       }
       /*
       else if(document.getElementById("equipment_exclusive").value == "0")
@@ -317,23 +317,24 @@ function check(){
 	
   
 	function enumber_cheng(){
+  
     var r2_number = document.getElementById("reservation2_number").value;
     
     //cc80要計算價錢
     var equid = document.getElementById("equipment_id").value;
     //alert(equid);
     switch(equid){
-      case Gym:  //艾美健身房
+      case Gyms:  //艾美健身房
          var price= parseInt(document.getElementById("equipment_max_people").value,10)*20;
          document.getElementById("show_price").innerHTML="付費:"+price;
          break;
-      case PartyRoom:  
-      case HearCenter:
+      case PartyRooms:  
+      case HearCenters:
          var price= parseInt(document.getElementById("equipment_max_people").value,10)*100;
          document.getElementById("show_price").innerHTML="付費:"+price;
          break;
          
-      case Barbecue:
+      case Barbecues:
          var price= parseInt(document.getElementById("equipment_max_people").value,10)*300;
          document.getElementById("show_price").innerHTML="付費:"+price;
          break;
@@ -350,8 +351,9 @@ function check(){
 		
 
 	}	
-	function show_time(){
-	//當日期點完的時候;會跑來這裡執行
+	function show_time(){ 
+	 
+	 //當日期點完的時候;會跑來這裡執行
 
     var equid=document.getElementById("equipment_id").value;
     
@@ -414,13 +416,13 @@ function check(){
 		  //20121109
     
      switch(equid){
-      case Gym:
-      case PartyRoom:
-      case Barbecue:
+      case Gyms:
+      case PartyRooms:
+      case Barbecues:
           list_time.onclick= function() { WdatePicker({minDate:nowhour,maxDate:advance_end,dateFmt:'HH:mm:00',disabledDates:['\:05\:','\:10\:','\:15\:','\:20\:','\:25\:','\:30\:','\:35\:','\:40\:','\:45\:','\:50\:','\:55\:']}); };
    
         break;
-      case HearCenter:
+      case HearCenters:
           list_time.onclick= function() { WdatePicker({minDate:advance_start,maxDate:advance_end,dateFmt:'HH:00:00',disabledDates:['\:05\:','\:10\:','\:15\:','\:20\:','\:25\:','\:30\:','\:35\:','\:40\:','\:45\:','\:50\:','\:55\:']}); };
   	     break;
       default:
@@ -441,17 +443,14 @@ function check(){
       //list_time.onclick= function() { WdatePicker({qsEnabled:false,minDate:advance_start,maxDate:advance_end,dateFmt:'HH:00:00',disabledDates:['09\:..:\..','11\:..:\..','13\:..:\..','15\:..:\..','17\:..:\..','19\:..:\..','21\:..:\..']}); };
 		   //20121109
   		  switch(equid){
-          case Gym:
-          case PartyRoom:
-          case HearCenter:
-          case Barbecue:
+          case Gyms:
+          case PartyRooms:
+          case HearCenters:
+          case Barbecues:
             list_time.onclick= function() { WdatePicker({minDate:advance_start,maxDate:advance_end,dateFmt:'HH:mm:00',disabledDates:['\:05\:','\:10\:','\:15\:','\:20\:','\:25\:','\:30\:','\:35\:','\:40\:','\:45\:','\:50\:','\:55\:']}); };
-  	
-        
             break;
         
           default:
-        
             list_time.onclick= function() { WdatePicker({minDate:advance_start,maxDate:advance_end,dateFmt:'HH:mm:00',disabledDates:['\:05\:','\:10\:','\:15\:','\:20\:','\:25\:','\:35\:','\:40\:','\:45\:','\:50\:','\:55\:']}); };
      
         
@@ -462,7 +461,6 @@ function check(){
 function seeklistmenu() 
 {
 //20121119
-
   var listdate=document.getElementById("list_date").value;
   var seek_startdate;
   var seek_enddate;
