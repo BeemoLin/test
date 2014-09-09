@@ -154,13 +154,15 @@ function callback()
                 var equid = document.getElementById("equipment_id").value;
                       var unit="";
                       switch(equid){
-                         case Gym:  
-                         case PartyRoom:
-                         case HearCenter:
-                          
+                        case Gym:
                           unit="人";
                           break;
-                          
+                        case PartyRoom:
+                          unit="間";
+                          break;
+                        case HearCenter:
+                          unit="間";
+                          break;
                         case Barbecue:
                           unit="爐";
                           break;

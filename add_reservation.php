@@ -202,6 +202,21 @@ function check(){
       case PartyRooms:
       case Barbecues:
       
+        var list_date = document.getElementById("list_date").value; 
+        var today = new Date();
+        today.setDate(today.getDate()+30);//當天往後30天
+        var today_year = today.getFullYear(); //西元年份
+        var today_month = today.getMonth()+1; //一年中的第幾月
+        var today_date = today.getDate(); //一月份中的第幾天
+        //var today_hours = today.getHours(); //一天中的小時數
+        //var today_minutes = today.getMinutes(); //一天中的分鐘
+        //var today_seconds = today.getSeconds(); //一天中的秒數
+        var CurrentDate = today_year+"/"+today_month+"/"+today_date;//+"  "+today_hours+":"+today_minutes+":"+today_seconds;
+        if((Date.parse(list_date.replace(/-/g, "/"))).valueOf() > (Date.parse(CurrentDate)).valueOf() || (Date.parse(list_date.replace(/-/g, "/"))).valueOf() >(Date.parse(CurrentDate)).valueOf()){
+            alert("限登記30天內日期");
+            document.getElementById("list_date").value="";
+            return;
+        }//else{alert("預約日期在指定區間內");}
         break;
       case HearCenters:
         var list_date = document.getElementById("list_date").value; 

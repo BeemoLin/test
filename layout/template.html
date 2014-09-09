@@ -1071,13 +1071,13 @@ function changeTitle() { //v3.0
                                   ?>
                                   </div>
                                   <?php //////////////////////////////////////////////////////////////////////////////////////////////////////////?>
-                                  <div class="popshow" style="float: left; width: 450px">
+                                  <div style="float: left; width: 450px">
                                   <?php
                                   if(isset($equ_pic_data)){
                                     while ($equ_pic = mysql_fetch_assoc($equ_pic_data)) {
                                       ?>
                                     <div class="q">
-                                      <img src="backstage/newpic/<?php echo $equ_pic['equipment_picture']; ?>" width="80" height="80" border="0" rel="backstage/newpic/<?php echo $equ_pic['equipment_picture']; ?>" />
+                                      <a href="reservation_rule.php?equipment_id=<?php echo $equ_pic['equipment_id']; ?>"><img src="backstage/newpic/<?php echo $equ_pic['equipment_picture']; ?>" width="80" height="80" border="0" rel="backstage/newpic/<?php echo $equ_pic['equipment_picture']; ?>" /></a> 
                                       <div class="albuminfo">
                                         <?php echo $equ_pic['equipment_name']; ?>
                                       </div>
@@ -3374,26 +3374,48 @@ print $pages_navigation_RecHappy[0];
            <tr>
              <input type="button" name="seeklistblock" id="seeklistblock"  onclick="seeklistmenu();"  value="已被預約時段查詢"> <!--  已被預約的時段查詢 style="width:1000;height:1000;"-->
             </tr>
+        
             <tr>
               <th scope="row" style="text-align: left;"> 日期：</th>
               <td>
                 <div id="list_date_hidden">
+                  <?php if($equipment_id=='1000'){ ?>
+                  <input type="hidden" name="set_list_date" id="set_list_date" value="<?php echo date("Y-m-d"); ?>">
+                  <?php echo date("Y-m-d")."（僅限使用當天預約）"; ?>
+                  <input type="hidden" name="list_date" id="list_date" class="Wdate" value="<?php echo date("Y-m-d"); ?>">
+                  <?php }elseif($equipment_id=='1003' || $equipment_id=='1002'){ ?>
+                  <input type="hidden" name="set_list_date" id="set_list_date" value="<?php echo date("Y-m-d", strtotime("tomorrow")); ?>">
+                  <?php echo date("Y-m-d", strtotime("tomorrow"))."（僅限使用前一天預約）"; ?>
+                  <input type="hidden" name="list_date" id="list_date" class="Wdate" value="<?php echo date("Y-m-d", strtotime("tomorrow")); ?>">
+                  <?php }elseif($equipment_id=='1001'){ ?>
+                  <input type="hidden" name="set_list_date" id="set_list_date" value="">
+                  <input name="list_date" id="list_date" type="text" class="Wdate"
+                  onClick="var list_time=$dp.$('list_time');WdatePicker({onpicked:function(){show_time();  },minDate:'%y-%M-%d',maxDate:'%y-%M-{%d+30}',dateFmt:'yyyy-MM-dd'})">
+                  <input id="list_date_yes" type="button" onclick="edate_yes();" value="確定">
+                  <input id="list_date_no" type="button"  onclick="edate_no();"  value="取消">
+                  <?php }else{ ?>
                   <input type="hidden" name="set_list_date" id="set_list_date" value="">
                   <input name="list_date" id="list_date" type="text" class="Wdate"
                   onClick="var list_time=$dp.$('list_time');WdatePicker({onpicked:function(){show_time();  },minDate:'%y-%M-%d',dateFmt:'yyyy-MM-dd'})">
                   <input id="list_date_yes" type="button" onclick="edate_yes();" value="確定">
                   <input id="list_date_no" type="button"  onclick="edate_no();"  value="取消">
+                  <?php } ?>
                 </div>
               </td>
               <td></td>
             </tr>
-            <tr  id="list_time_hidden" style="display:none;">
+            <?php if($equipment_id=='1000' || $equipment_id=='1002' || $equipment_id=='1003'){?>
+            <tr id="list_time_hidden">
+            <?php }else{ ?>
+            <tr id="list_time_hidden" style="display:none;">
+            <?php } ?>
               <th scope="row" style="text-align: left;"> 時間：</th>
               <td>
                 <div>
                   <input type="hidden" name="set_list_time" id="set_list_time" value="">
-                  <input name="list_time" id="list_time" type="text" class="Wdate" ><!--當點選日期則會使用show_time()執行程式裡面含時間的list_time名稱-->
-                  <input id="list_time_yes" type="button" onclick="etime_yes();" value="確定">
+                  <input name="list_time" id="list_time" type="text" class="Wdate" onclick="show_time();">
+                  <!--當點選日期則會使用show_time()執行程式裡面含時間的list_time名稱-->
+                  <input id="list_time_yes" type="button" onclick="edate_yes();etime_yes();" value="確定">
                   <input id="list_time_no" type="button"  onclick="etime_no();"  value="取消">
                 </div>
               </td>

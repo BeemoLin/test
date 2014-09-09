@@ -99,7 +99,34 @@ SET
 }
 $Recordset = mysql_query($query, $connSQL) or die(mysql_error());
 
+//同時預約兩個設備
+if($equipment_id=='1002' || $equipment_id=='1003')
+{
+  if($equipment_id=='1002')
+  {
+    $eq_id = '1003';
+  }
+  else
+  {
+    $eq_id = '1002';
+  }
+  
+  $query = "
+    INSERT INTO 
+      `equipment_reservation_list`
+    SET 
+      `equipment_id` = ".$eq_id.", 
+      `list_date` = '".$set_list_date."', 
+      `list_time` = '".$set_list_time."', 
+      `list_endtime` = '".$list_endtime."', 
+      `list_datetime` = '".$set_list_date." ".$set_list_time."', 
+      `save_datetime` = NOW(), 
+      `m_id` = ".$m_id.", 
+      `list_using_number` = ".$equipment_max_people."
+  ";
 
+$Recordset = mysql_query($query, $connSQL) or die(mysql_error());
+}
     
     //-----信件發送
     $query = "SELECT * FROM adminuser WHERE `allname`='公設預約通知名單'";
