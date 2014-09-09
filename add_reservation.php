@@ -15,15 +15,18 @@ define("Gym","1000");
 define("PartyRoom","1003");
 define("HearCenter","1002");
 define("Barbecue","1001");
+
 function GetUnit($equid){
   switch($equid){
   
     case Barbecue:
       $unit="使用爐數";
       break;
-    case Gym:  
     case PartyRoom:
     case HearCenter:
+      $unit="使用間數";
+      break;
+    case Gym:  
     default:              
       $unit="使用人數";
       break;
@@ -33,6 +36,39 @@ function GetUnit($equid){
 
 }
 
+function CheckListEquOneMore($connSQL,$equipment_id,$m_id){
+ switch($equipment_id){
+   case PartyRoom:
+   case HearCenter: 
+   case Gym: 
+     
+    
+    $list_date=($equipment_id==Gym)?date("Y-m-d"):date("Y-m-d", strtotime("tomorrow"));
+    $sql = "
+			SELECT COUNT(*) AS `check_reservation`
+			FROM `equipment_reservation_list` 
+			WHERE `list_disable` = '0'
+        AND `equipment_id` = '".$equipment_id."' 
+        AND `m_id` = '".$m_id."' 
+        AND `list_date` = '".$list_date."' 
+		";
+		 
+		$returnData = mysql_query($sql,$connSQL);
+		$data = mysql_fetch_assoc($returnData);
+	  
+    $listEqumore=($data['check_reservation']>0)?"Yes":"No";
+	 
+    break;
+    
+   default:
+    $listEqumore="None";
+    
+ }
+ return $listEqumore;
+
+}
+
+
 
 if (isset($_GET['equipment_id'])) {
   $equipment_id = $_GET['equipment_id'];
@@ -41,6 +77,12 @@ else{
 	header('Location: reservation.php');
 	exit();
 }
+
+
+ 
+
+
+
 
 $query_Recordset1 = "
 SELECT *
@@ -55,11 +97,20 @@ $row_Recordset = mysql_fetch_assoc($Recordset);
 
 $processTime= split(":", $row_Recordset['advance_end']);
 $end_hour=$processTime[0];
-$endTime=$processTime[0]-1;
+
+switch($equipment_id){
+    case Barbecue:
+      $endTime=$processTime[0]-2;
+      break;
+    default:              
+     $endTime=$processTime[0]-1;
+  }
 $strendTime=($endTime<10)?"0".(string)$endTime.":00:00":(string)$endTime.":00:00";
 
 $unitTitle=GetUnit($equipment_id);
- 
+
+$user=$_SESSION['MM_UserID'];
+$checkListMore=CheckListEquOneMore($connSQL,$equipment_id,$user);
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

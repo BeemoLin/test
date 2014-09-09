@@ -6,6 +6,11 @@ require_once('define.php');
 require_once(CONNSQL);
 require_once(PAGECLASS);
 require_once(INCLUDES.'/PHPMailer/class.phpmailer.php');
+
+
+define("PartyRoom","1003");
+define("HearCenter","1002");
+
 //require('system/PHPMailer_v5.1/class.phpmailer.php');
 
 //201407 by akai 增加更新人數
@@ -100,16 +105,10 @@ SET
 $Recordset = mysql_query($query, $connSQL) or die(mysql_error());
 
 //同時預約兩個設備
-if($equipment_id=='1002' || $equipment_id=='1003')
+
+if($equipment_id==HearCenter || $equipment_id==PartyRoom)
 {
-  if($equipment_id=='1002')
-  {
-    $eq_id = '1003';
-  }
-  else
-  {
-    $eq_id = '1002';
-  }
+  $eq_id=($equipment_id==HearCenter)?PartyRoom:HearCenter;
   
   $query = "
     INSERT INTO 

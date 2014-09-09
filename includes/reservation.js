@@ -2,12 +2,12 @@
 
 
 var xmlHttp; 
-var chk
+var chk;
 
-const PartyRoom="1003";
-const Gym="1000";
-const HearCenter="1002";
-const Barbecue="1001";
+var PartyRoom="1003";
+var Gym="1000";
+var HearCenter="1002";
+var Barbecue="1001";
 
 function createXMLHttpRequest() { 
   if (window.ActiveXObject) { // IE 

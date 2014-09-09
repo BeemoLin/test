@@ -3376,18 +3376,35 @@ print $pages_navigation_RecHappy[0];
             </tr>
         
             <tr>
+              <?php if($checkListMore=="None" || $checkListMore=="No"){?>
               <th scope="row" style="text-align: left;"> 日期：</th>
+              <?php } ?>
               <td>
                 <div id="list_date_hidden">
-                  <?php if($equipment_id=='1000'){ ?>
-                  <input type="hidden" name="set_list_date" id="set_list_date" value="<?php echo date("Y-m-d"); ?>">
-                  <?php echo date("Y-m-d")."（僅限使用當天預約）"; ?>
-                  <input type="hidden" name="list_date" id="list_date" class="Wdate" value="<?php echo date("Y-m-d"); ?>">
-                  <?php }elseif($equipment_id=='1003' || $equipment_id=='1002'){ ?>
-                  <input type="hidden" name="set_list_date" id="set_list_date" value="<?php echo date("Y-m-d", strtotime("tomorrow")); ?>">
-                  <?php echo date("Y-m-d", strtotime("tomorrow"))."（僅限使用前一天預約）"; ?>
-                  <input type="hidden" name="list_date" id="list_date" class="Wdate" value="<?php echo date("Y-m-d", strtotime("tomorrow")); ?>">
-                  <?php }elseif($equipment_id=='1001'){ ?>
+                  <?php if($equipment_id==Gym){ ?>
+                  
+                        <?php if($checkListMore=="Yes"){?>
+                            <input type="hidden" name="list_date" id="list_date" class="Wdate" value="<?php echo date("Y-m-d"); ?>">
+                            <?php echo "同一天如要預約兩次以上，請洽管理室!!"; ?>
+                        <?php }else{ ?>
+                          <input type="hidden" name="set_list_date" id="set_list_date" value="<?php echo date("Y-m-d"); ?>">
+                          <?php echo date("Y-m-d")."（僅限使用當天預約）"; ?>
+                          <input type="hidden" name="list_date" id="list_date" class="Wdate" value="<?php echo date("Y-m-d"); ?>">
+                        <?php }?>
+                  
+                  <?php }elseif($equipment_id==PartyRoom || $equipment_id==HearCenter){ ?>
+                  
+                        <?php if($checkListMore=="Yes"){?>
+                             <input type="hidden" name="list_date" id="list_date" class="Wdate" value="<?php echo date("Y-m-d", strtotime("tomorrow")); ?>">
+                            <?php echo "同一天如要預約兩次以上，請洽管理室!!"; ?>
+                        <?php }else{ ?>
+                            <input type="hidden" name="set_list_date" id="set_list_date" value="<?php echo date("Y-m-d", strtotime("tomorrow")); ?>">
+                            <?php echo date("Y-m-d", strtotime("tomorrow"))."（僅限使用前一天預約）"; ?>
+                            <input type="hidden" name="list_date" id="list_date" class="Wdate" value="<?php echo date("Y-m-d", strtotime("tomorrow")); ?>">
+                        <?php }?>  
+                        
+                
+                  <?php }elseif($equipment_id==Barbecue){ ?>
                   <input type="hidden" name="set_list_date" id="set_list_date" value="">
                   <input name="list_date" id="list_date" type="text" class="Wdate"
                   onClick="var list_time=$dp.$('list_time');WdatePicker({onpicked:function(){show_time();  },minDate:'%y-%M-%d',maxDate:'%y-%M-{%d+30}',dateFmt:'yyyy-MM-dd'})">
@@ -3404,21 +3421,29 @@ print $pages_navigation_RecHappy[0];
               </td>
               <td></td>
             </tr>
-            <?php if($equipment_id=='1000' || $equipment_id=='1002' || $equipment_id=='1003'){?>
-            <tr id="list_time_hidden">
+            <?php if($equipment_id==Gym || $equipment_id==PartyRoom || $equipment_id==HearCenter){?>
+               <?php if($checkListMore=="None" || $checkListMore=="No"){?>
+                  <tr id="list_time_hidden">
+               <? }else{ ?>
+                  <tr id="list_time_hidden" style="display:none;">
+               <? }?>
             <?php }else{ ?>
             <tr id="list_time_hidden" style="display:none;">
             <?php } ?>
+            
+              
               <th scope="row" style="text-align: left;"> 時間：</th>
+             
               <td>
                 <div>
                   <input type="hidden" name="set_list_time" id="set_list_time" value="">
                   <input name="list_time" id="list_time" type="text" class="Wdate" onclick="show_time();">
-                  <!--當點選日期則會使用show_time()執行程式裡面含時間的list_time名稱-->
-                  <input id="list_time_yes" type="button" onclick="edate_yes();etime_yes();" value="確定">
+                  <!--當點選日期則會使用show_time()執行程式裡面含時間的list_time名稱edate_yes();-->
+                  <input id="list_time_yes" type="button" onclick="etime_yes();" value="確定">
                   <input id="list_time_no" type="button"  onclick="etime_no();"  value="取消">
                 </div>
               </td>
+            
               <td>
                 <input type="hidden" name="reservation2_number" id="reservation2_number" value="" />
                 <div id="show_check_reservation2" ></div>

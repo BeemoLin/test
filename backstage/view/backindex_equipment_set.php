@@ -193,6 +193,7 @@
                 <option value="21:00:00" <?php echo isset($value['advance_end'])? ($value['advance_end']=='21:00:00'? 'selected="selected"':''):'';?> >21:00</option>
                 <option value="22:00:00" <?php echo isset($value['advance_end'])? ($value['advance_end']=='22:00:00'? 'selected="selected"':''):'';?> >22:00</option>
                 <option value="23:00:00" <?php echo isset($value['advance_end'])? ($value['advance_end']=='23:00:00'? 'selected="selected"':''):'';?> >23:00</option>
+                <option value="24:00:00" <?php echo isset($value['advance_end'])? ($value['advance_end']=='24:00:00'? 'selected="selected"':''):'';?> >24:00</option>
               </select>
             </td>
 					</tr>
