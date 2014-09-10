@@ -3405,17 +3405,17 @@ print $pages_navigation_RecHappy[0];
                         
                 
                   <?php }elseif($equipment_id==Barbecue){ ?>
-                  <input type="hidden" name="set_list_date" id="set_list_date" value="">
-                  <input name="list_date" id="list_date" type="text" class="Wdate"
-                  onClick="var list_time=$dp.$('list_time');WdatePicker({onpicked:function(){show_time();  },minDate:'%y-%M-%d',maxDate:'%y-%M-{%d+30}',dateFmt:'yyyy-MM-dd'})">
-                  <input id="list_date_yes" type="button" onclick="edate_yes();" value="確定">
-                  <input id="list_date_no" type="button"  onclick="edate_no();"  value="取消">
+                          <input type="hidden" name="set_list_date" id="set_list_date" value="">
+                          <input name="list_date" id="list_date" type="text" class="Wdate"
+                          onClick="var list_time=$dp.$('list_time');WdatePicker({onpicked:function(){show_time();  },minDate:'%y-%M-%d',maxDate:'%y-%M-{%d+30}',dateFmt:'yyyy-MM-dd'})">
+                          <input id="list_date_yes" type="button" onclick="edate_yes();" value="確定">
+                          <input id="list_date_no" type="button"  onclick="edate_no();"  value="取消">
                   <?php }else{ ?>
-                  <input type="hidden" name="set_list_date" id="set_list_date" value="">
-                  <input name="list_date" id="list_date" type="text" class="Wdate"
-                  onClick="var list_time=$dp.$('list_time');WdatePicker({onpicked:function(){show_time();  },minDate:'%y-%M-%d',dateFmt:'yyyy-MM-dd'})">
-                  <input id="list_date_yes" type="button" onclick="edate_yes();" value="確定">
-                  <input id="list_date_no" type="button"  onclick="edate_no();"  value="取消">
+                          <input type="hidden" name="set_list_date" id="set_list_date" value="">
+                          <input name="list_date" id="list_date" type="text" class="Wdate"
+                          onClick="var list_time=$dp.$('list_time');WdatePicker({onpicked:function(){show_time();  },minDate:'%y-%M-%d',dateFmt:'yyyy-MM-dd'})">
+                          <input id="list_date_yes" type="button" onclick="edate_yes();" value="確定">
+                          <input id="list_date_no" type="button"  onclick="edate_no();"  value="取消">
                   <?php } ?>
                 </div>
               </td>

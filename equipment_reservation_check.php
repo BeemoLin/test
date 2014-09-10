@@ -25,6 +25,41 @@ SET
 	 mysql_query($query, $connSQL) or die(mysql_error());
 }
 
+//GET中文名稱
+function GetPartyRoomOrHearCenterName($connSQL,$equipment_id){
+   switch($equipment_id){
+    
+     
+      case PartyRoom:
+      case HearCenter:
+        $seekequid=($equipment_id==PartyRoom)?HearCenter:PartyRoom;
+
+
+        $query="
+              SELECT * 
+              FROM `equipment_reservation`
+              WHERE `equipment_id` = ".$seekequid."
+              ";
+        $result = mysql_query($query, $connSQL) or die(mysql_error());
+        $data = mysql_fetch_array($result);
+        $equname="/".$data['equipment_name'];
+        
+        break;
+    
+      default:              
+        $equname="";
+    } 
+    return $equname;
+}
+
+
+
+
+
+
+
+
+
 $logoutAction = 'logout.php';
 
 //取HTML物件值 $_GET 或 $_POST 因為add_reservation method=get GET也可以取物件的內容值 不過有大小限制
@@ -105,7 +140,6 @@ SET
 $Recordset = mysql_query($query, $connSQL) or die(mysql_error());
 
 //同時預約兩個設備
-
 if($equipment_id==HearCenter || $equipment_id==PartyRoom)
 {
   $eq_id=($equipment_id==HearCenter)?PartyRoom:HearCenter;
@@ -148,7 +182,11 @@ Hello John!
   */
 		$message = str_replace('[c_subject]', 	C_SUBJECT, $message);//填入表格中
 		$message = str_replace('[username]',	$m_user, $message);
-		$message = str_replace('[name]', 		$equipment_name, $message);
+		
+		
+		
+		
+		$message = str_replace('[name]', 		$equipment_name.GetPartyRoomOrHearCenterName($connSQL,$equipment_id), $message);
 		$message = str_replace('[date]', 		$set_list_date, $message);
 		$message = str_replace('[time]', 		$list_time_format, $message);//$set_list_time
     

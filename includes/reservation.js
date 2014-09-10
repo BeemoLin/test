@@ -208,6 +208,7 @@ function callback()
                       
                       }
               }else{
+                  
                   sc_reservation2.innerHTML =ordereddetail+" 無法預約";
                   sc_reservation2.innerHTML =sc_reservation2.innerHTML+"(已預約完)";//20140716 by akai
               }
@@ -218,30 +219,31 @@ function callback()
       
          //sc_reservation2.innerHTML =";使用人數:"+usecount;
          //20121120 因為非同步,所以要放入這邊alert(document.getElementById("list_time").value);
-      		if(document.getElementById("list_time").value != "")
-          {
-            if(document.getElementById("equipment_exclusive").value == "1" | document.getElementById("equipment_exclusive").value == "0")
+          if(0>1){
+          	if(document.getElementById("list_time").value != "")
             {
-              document.getElementById("list_time_yes").disabled=true;
-              document.getElementById("list_date").disabled=true;
-              document.getElementById("set_list_time").value = document.getElementById("list_time").value;
-              document.getElementById("list_time").disabled=true;
               
-              //20121109不顯示用戶人數
-              //document.getElementById("equipment_max_people").disabled=false;
-              //document.getElementById("equipment_max_people").value="1";
-              
-              document.getElementById("list_date_hidden").style.display="";
-              document.getElementById("list_time_hidden").style.display="";
-              //document.getElementById("submit01").style.display="";
-              document.getElementById("equipment_exclusive").value="1";//20121110  0 或1都設成1 動javascript不動php怕影響其他的程式
-              //alert('TEST');
-            }
-             
-      		}
-         
-         
-         
+              if(document.getElementById("equipment_exclusive").value == "1" | document.getElementById("equipment_exclusive").value == "0")
+              {
+                
+                document.getElementById("list_time_yes").disabled=true;
+                document.getElementById("list_date").disabled=true;
+                document.getElementById("set_list_time").value = document.getElementById("list_time").value;
+                document.getElementById("list_time").disabled=true;
+                
+                //20121109不顯示用戶人數
+                //document.getElementById("equipment_max_people").disabled=false;
+                //document.getElementById("equipment_max_people").value="1";
+                
+                document.getElementById("list_date_hidden").style.display="";
+                document.getElementById("list_time_hidden").style.display="";
+                //document.getElementById("submit01").style.display="";
+                document.getElementById("equipment_exclusive").value="1";//20121110  0 或1都設成1 動javascript不動php怕影響其他的程式
+               	
+              }
+               
+        		}
+          }
       }
       //-----------統計今天這個時間區域有幾個人 -----------------------
       //20121119不顯示人數與戶數;改成可以使用的時段區間

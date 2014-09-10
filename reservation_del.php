@@ -14,6 +14,63 @@ require_once(PAGECLASS);
 require_once(INCLUDES.'/PHPMailer/class.phpmailer.php');
 
 
+define("PartyRoom","1003");
+define("HearCenter","1002");
+
+//PartyRoom,HearCenter 連動取消機制
+function UpdatePartyRoomOrHearCenter($data_function,$equipment_id,$list_datetime){
+   switch($equipment_id){
+    
+     
+      case PartyRoom:
+      case HearCenter:
+        $seekequid=($equipment_id==PartyRoom)?HearCenter:PartyRoom;
+
+        $data_function->setDb('`equipment_reservation_list`');
+        $select_expression = "`equipment_reservation_list`.*";
+        $where_expression = "AND `equipment_id` = '".$seekequid."' AND `list_datetime`='".$list_datetime."'";
+        $data = $data_function->select($where_expression,$select_expression);
+        
+        $list_id=$data[1]['list_id'];
+        
+        $data_function->setDb('`equipment_reservation_list`');
+        $update_expression="`list_disable` = '1'";
+        $where_expression = "AND `list_id` = '".$list_id."'";
+        $data_function->update($where_expression,$update_expression);
+        
+        
+        
+        break;
+    
+      default:              
+       
+    } 
+}
+//GET中文名稱
+function GetPartyRoomOrHearCenterName($data_function,$equipment_id){
+   switch($equipment_id){
+    
+     
+      case PartyRoom:
+      case HearCenter:
+        $seekequid=($equipment_id==PartyRoom)?HearCenter:PartyRoom;
+
+        $data_function->setDb('`equipment_reservation`');
+        $select_expression = "`equipment_reservation`.*";
+        $where_expression = "AND `equipment_id` = '".$seekequid."'";
+        $data = $data_function->select($where_expression,$select_expression); 
+        $equname="/".$data[1]['equipment_name'];
+        break;
+    
+      default:              
+        $equname="";
+    } 
+    return $equname;
+}
+
+
+
+
 //----使用POST submit方式
 if(isset($_POST)){
 	foreach($_POST as $key => $value){
@@ -118,7 +175,10 @@ else
 
 		$message = str_replace('[c_subject]', 	C_SUBJECT, $message);
 		$message = str_replace('[username]',	$m_user, $message);
-		$message = str_replace('[name]', 		$equipment_name, $message);
+		
+		
+		 
+		$message = str_replace('[name]', 		$equipment_name.GetPartyRoomOrHearCenterName($data_function,$equipment_id), $message);
 		$message = str_replace('[date]', 		$list_date, $message);
 		$message = str_replace('[time]', 		$timeformat, $message);//$list_time
     //die($message);
@@ -146,11 +206,17 @@ else
 
 //-------------寄信用---------------
 //20121114 改成更新
+
+
+
 $data_function->setDb('`equipment_reservation_list`');
 //$data_function->delete($where_expression); //---------------前台有刪除資料-------------------考慮是否要用update的方式
 //20121114 改成更新
 $update_expression="`list_disable` = '1'";
 $data_function->update($where_expression,$update_expression);
+
+
+UpdatePartyRoomOrHearCenter($data_function,$equipment_id,$list_date." ".$list_time);
 
 
 //20121114

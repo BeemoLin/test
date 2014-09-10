@@ -209,7 +209,7 @@ function check(){
     }*/
     else{
     
-        document.getElementById("equipment_exclusive").value=(parseInt(v5)>0)?0:1;//201407 by akai for equipment_reservation_check.php新增用
+        document.getElementById("equipment_exclusive").value=(parseInt(v5)>0)?0:1;//201407 by akai for equipment_reservation_check.php新增用:分非專屬預約與專屬預約
         //mark();
         listtime=document.getElementById("show_check_reservation2").innerHTML;
       
@@ -292,16 +292,17 @@ function check(){
 		document.getElementById("list_date").disabled=false;
 		document.getElementById("list_time").disabled=true;
 		//document.getElementById("equipment_max_people").disabled=true;
-		document.getElementById("show_check_reservation1").innerHTML = "";
+	/*	document.getElementById("show_check_reservation1").innerHTML = "";
 		document.getElementById("show_check_reservation1").value = "";
 		document.getElementById("show_check_reservation2").innerHTML = "";
 		document.getElementById("show_check_reservation2").value = "";
-		document.getElementById("show_check_reservation3").innerHTML = "";
+		document.getElementById("show_check_reservation3").innerHTML = "";*/
 
 		
 		document.getElementById("list_date_hidden").style.display="";
 		document.getElementById("list_time_hidden").style.display="none";
 		document.getElementById("max_people_hidden").style.display="none";
+		document.getElementById("show_price").style.display="none";
 	}
 	
 	
@@ -316,7 +317,7 @@ function check(){
 	     return;
 	  }
 	  //-----------------
-	  //20121109增加判斷 可以註解IF
+	 
 		checkReservation2();
 		if(document.getElementById("list_time").value != "")
     {
@@ -340,6 +341,7 @@ function check(){
         
         document.getElementById("list_date_hidden").style.display="";
         document.getElementById("list_time_hidden").style.display="";
+        document.getElementById("show_price").style.display="";
        // document.getElementById("submit01").style.display=""; 放到reservation.js
         document.getElementById("equipment_exclusive").value="1";//20121110  0 或1都設成1 動javascript不動php怕影響其他的程式
         
@@ -379,6 +381,7 @@ function check(){
 		document.getElementById("list_time_hidden").style.display="";
 		document.getElementById("max_people_hidden").style.display="none";
     document.getElementById("submit01").style.display="none";
+    document.getElementById("show_price").style.display="none";
 	}
 	
   
@@ -485,14 +488,14 @@ function check(){
       case Gyms:
       case PartyRooms:
       case Barbecues:
-          list_time.onclick= function() { WdatePicker({minDate:nowhour,maxDate:advance_end,dateFmt:'HH:mm:00',disabledDates:['\:05\:','\:10\:','\:15\:','\:20\:','\:25\:','\:30\:','\:35\:','\:40\:','\:45\:','\:50\:','\:55\:']}); };
+          list_time.onclick= function() { WdatePicker({minDate:nowhour,maxDate:advance_end,dateFmt:'HH:00:00',disabledDates:['\:05\:','\:10\:','\:15\:','\:20\:','\:25\:','\:30\:','\:35\:','\:40\:','\:45\:','\:50\:','\:55\:']}); };
    
         break;
       case HearCenters:
           list_time.onclick= function() { WdatePicker({minDate:advance_start,maxDate:advance_end,dateFmt:'HH:00:00',disabledDates:['\:05\:','\:10\:','\:15\:','\:20\:','\:25\:','\:30\:','\:35\:','\:40\:','\:45\:','\:50\:','\:55\:']}); };
   	     break;
       default:
-          list_time.onclick= function() { WdatePicker({minDate:nowhour,maxDate:advance_end,dateFmt:'HH:mm:00',disabledDates:['\:05\:','\:10\:','\:15\:','\:20\:','\:25\:','\:35\:','\:40\:','\:45\:','\:50\:','\:55\:']}); };
+          list_time.onclick= function() { WdatePicker({minDate:nowhour,maxDate:advance_end,dateFmt:'HH:00:00',disabledDates:['\:05\:','\:10\:','\:15\:','\:20\:','\:25\:','\:35\:','\:40\:','\:45\:','\:50\:','\:55\:']}); };
      }
     
       
@@ -513,11 +516,11 @@ function check(){
           case PartyRooms:
           case HearCenters:
           case Barbecues:
-            list_time.onclick= function() { WdatePicker({minDate:advance_start,maxDate:advance_end,dateFmt:'HH:mm:00',disabledDates:['\:05\:','\:10\:','\:15\:','\:20\:','\:25\:','\:30\:','\:35\:','\:40\:','\:45\:','\:50\:','\:55\:']}); };
+            list_time.onclick= function() { WdatePicker({minDate:advance_start,maxDate:advance_end,dateFmt:'HH:00:00',disabledDates:['\:05\:','\:10\:','\:15\:','\:20\:','\:25\:','\:30\:','\:35\:','\:40\:','\:45\:','\:50\:','\:55\:']}); };
             break;
         
           default:
-            list_time.onclick= function() { WdatePicker({minDate:advance_start,maxDate:advance_end,dateFmt:'HH:mm:00',disabledDates:['\:05\:','\:10\:','\:15\:','\:20\:','\:25\:','\:35\:','\:40\:','\:45\:','\:50\:','\:55\:']}); };
+            list_time.onclick= function() { WdatePicker({minDate:advance_start,maxDate:advance_end,dateFmt:'HH:00:00',disabledDates:['\:05\:','\:10\:','\:15\:','\:20\:','\:25\:','\:35\:','\:40\:','\:45\:','\:50\:','\:55\:']}); };
      
         
         }
