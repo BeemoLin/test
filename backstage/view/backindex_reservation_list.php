@@ -25,10 +25,17 @@ function GetUnit($equid,&$unit){
             $unit="爐";
             break;
           case Gym:
+            $unit="人";
+            break;
           case PartyRoom:
+            $unit="間";
+            break;
           case HearCenter:
+            $unit="間";
+            break;
           default:
             $unit="人";
+            break;
         }
 }
 GetEquMoney($equipment_id,&$money);

@@ -450,13 +450,33 @@ elseif($action_mode=='update_reservation_check'){
 	reservation_show_list($equipment_id,$page);
 }
 elseif($action_mode=='disable_reservation'){
-	$c_equipment = new equipment;
-  $c_equipment->setDb('`equipment_reservation_list`');
-	$where_expression = "AND `list_id` = '".$list_id."'";
-	$update_expression = " `list_disable` = '1' ,`save_datetime` = NOW(), `disable_man` = '".$_SESSION['MM_UserID']."'"; 
-	$c_equipment->update($where_expression,$update_expression); 
-	
-	reservation_show_list($equipment_id,$page);
+
+  // [需求]同時取消兩個設備
+  $data_function = new data_function;
+  $select_expression = "*";
+     $data_function->setDb('`equipment_reservation_list`');
+  $where_expression = "AND `equipment_reservation_list`.`list_id` = '".$list_id."'";
+  $returnData = $data_function->select($where_expression,$select_expression);
+  $value = $returnData[1];
+
+  if($value['equipment_id']=='1002' || $value['equipment_id']=='1003')
+  {
+    $c_equipment = new equipment;
+    $c_equipment->setDb('`equipment_reservation_list`');
+    $where_expression = "AND `equipment_id` IN('1002', '1003') AND `list_disable` = '0' AND `list_datetime` = '".$value['list_datetime']."'";
+    $update_expression = " `list_disable` = '1' ,`save_datetime` = NOW(), `disable_man` = '".$_SESSION['MM_UserID']."'"; 
+    $c_equipment->update($where_expression,$update_expression); 
+  }
+  else
+  {
+    $c_equipment = new equipment;
+    $c_equipment->setDb('`equipment_reservation_list`');
+    $where_expression = "AND `list_id` = '".$list_id."'";
+    $update_expression = " `list_disable` = '1' ,`save_datetime` = NOW(), `disable_man` = '".$_SESSION['MM_UserID']."'"; 
+    $c_equipment->update($where_expression,$update_expression); 
+  }
+  
+  reservation_show_list($equipment_id,$page);
 }
 elseif($action_mode=='pay'){
 	$c_equipment = new equipment;
