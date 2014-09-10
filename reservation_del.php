@@ -28,7 +28,7 @@ function UpdatePartyRoomOrHearCenter($data_function,$equipment_id,$list_datetime
 
         $data_function->setDb('`equipment_reservation_list`');
         $select_expression = "`equipment_reservation_list`.*";
-        $where_expression = "AND `equipment_id` = '".$seekequid."' AND `list_datetime`='".$list_datetime."'";
+        $where_expression = "AND `equipment_id` = '".$seekequid."' AND `list_datetime`='".$list_datetime."' AND	`list_disable`='0'";
         $data = $data_function->select($where_expression,$select_expression);
         
         $list_id=$data[1]['list_id'];
